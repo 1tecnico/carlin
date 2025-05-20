@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Educação Física</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #0077cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #005fa3;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    footer {
+      background-color: #0077cc;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Educação Física</h1>
+    <p>Saúde, movimento e qualidade de vida</p>
+  </header>
+
+  <nav>
+    <a href="#importancia">Importância</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="#atividades">Atividades</a>
+  </nav>
+
+  <main>
+    <section id="importancia">
+      <h2>Importância da Educação Física</h2>
+      <p>A educação física é essencial para o desenvolvimento físico, mental e social dos indivíduos. Ela promove a prática de exercícios, melhora a saúde e ensina valores como cooperação e disciplina.</p>
+    </section>
+
+    <section id="beneficios">
+      <h2>Benefícios da Atividade Física</h2>
+      <ul>
+        <li>Melhora a saúde cardiovascular</li>
+        <li>Reduz o estresse e a ansiedade</li>
+        <li>Aumenta a autoestima</li>
+        <li>Contribui para o controle de peso</li>
+        <li>Melhora o sono e o humor</li>
+      </ul>
+    </section>
+
+    <section id="atividades">
+      <h2>Atividades Comuns</h2>
+      <p>Algumas das atividades comuns nas aulas de educação física incluem:</p>
+      <ol>
+        <li>Futebol</li>
+        <li>Voleibol</li>
+        <li>Basquetebol</li>
+        <li>Corrida e caminhada</li>
+        <li>Alongamentos e exercícios de força</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Educação Física. Todos os direitos reservados.</p>
+  </footer>
+
+</body>
+</html>
