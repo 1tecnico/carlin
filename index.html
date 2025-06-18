@@ -198,3 +198,63 @@ clique para baixar
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo de Educação Física</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #e1f5fe;
+    }
+    .imagem {
+      width: 200px;
+      margin: 20px auto;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    .mensagem {
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jogo de Educação Física</h1>
+  <p>Qual é o nome do exercício abaixo?</p>
+
+  <img id="imagemExercicio" class="imagem" src="https://cdn.pixabay.com/photo/2016/03/27/21/16/fitness-1284611_960_720.jpg" alt="Exercício">
+
+  <br>
+  <input type="text" id="resposta" placeholder="Digite sua resposta">
+  <button onclick="verificarResposta()">Verificar</button>
+
+  <p class="mensagem" id="mensagem"></p>
+
+  <script>
+    const exercicio = {
+      nome: "flexão",
+      imagem: "https://cdn.pixabay.com/photo/2016/03/27/21/16/fitness-1284611_960_720.jpg"
+    };
+
+    function verificarResposta() {
+      const resposta = document.getElementById("resposta").value.toLowerCase().trim();
+      const mensagem = document.getElementById("mensagem");
+
+      if (resposta === exercicio.nome) {
+        mensagem.style.color = "green";
+        mensagem.textContent = "Parabéns! Você acertou!";
+      } else {
+        mensagem.style.color = "red";
+        mensagem.textContent = "Ops! Tente novamente.";
+      }
+    }
+  </script>
+</body>
+</html>
