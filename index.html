@@ -8,24 +8,25 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
     margin: 0;
+    padding: 20px;
     text-align: center;
     color: white;
 }
 
 h1 {
-    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .container {
     background: white;
     color: black;
     max-width: 500px;
-    margin: 30px auto;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 input {
@@ -39,14 +40,13 @@ button {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #667eea;
+    background: #4e73df;
     color: white;
     cursor: pointer;
-    margin-left: 5px;
 }
 
 button:hover {
-    background: #5a67d8;
+    background: #2e59d9;
 }
 
 ul {
@@ -56,7 +56,7 @@ ul {
 }
 
 li {
-    background: #f1f1f1;
+    background: #f8f9fc;
     margin: 8px 0;
     padding: 10px;
     border-radius: 5px;
@@ -67,12 +67,13 @@ li {
 
 .remover {
     background: red;
-    color: white;
+    padding: 5px 8px;
+    font-size: 12px;
 }
 
-.footer {
-    margin-top: 20px;
-    font-size: 14px;
+.contador {
+    margin-top: 10px;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -83,64 +84,47 @@ li {
 <p>Minha Matéria 📚</p>
 
 <div class="container">
-    <input type="text" id="itemInput" placeholder="Digite o material da matéria...">
+    <input type="text" id="itemInput" placeholder="Digite o material...">
     <button onclick="adicionarItem()">Adicionar</button>
 
-    <ul id="listaItens"></ul>
-</div>
+    <ul id="lista"></ul>
 
-<div class="footer">
-    Trabalho Escolar | Desenvolvido por Carlin ✏️
+    <div class="contador">
+        Total de itens: <span id="total">0</span>
+    </div>
 </div>
 
 <script>
-const lista = document.getElementById("listaItens");
 const input = document.getElementById("itemInput");
+const lista = document.getElementById("lista");
+const total = document.getElementById("total");
 
-// Carregar itens salvos
-window.onload = function() {
-    const itensSalvos = JSON.parse(localStorage.getItem("mochilaMateria")) || [];
-    itensSalvos.forEach(item => criarItem(item));
-};
+let itens = JSON.parse(localStorage.getItem("mochilaCarlin")) || [];
+
+function atualizarLista() {
+    lista.innerHTML = "";
+    itens.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            📘 ${item}
+            <button class="remover" onclick="removerItem(${index})">X</button>
+        `;
+        lista.appendChild(li);
+    });
+    total.textContent = itens.length;
+    localStorage.setItem("mochilaCarlin", JSON.stringify(itens));
+}
 
 function adicionarItem() {
-    if (input.value.trim() === "") return;
+    const valor = input.value.trim();
+    if (valor === "") return;
 
-    criarItem(input.value);
-    salvarItem(input.value);
+    itens.push(valor);
     input.value = "";
+    atualizarLista();
 }
 
-function criarItem(texto) {
-    const li = document.createElement("li");
-    li.innerHTML = "📘 " + texto;
-
-    const botaoRemover = document.createElement("button");
-    botaoRemover.textContent = "X";
-    botaoRemover.classList.add("remover");
-
-    botaoRemover.onclick = function() {
-        li.remove();
-        removerItem(texto);
-    };
-
-    li.appendChild(botaoRemover);
-    lista.appendChild(li);
+function removerItem(index) {
+    itens.splice(index, 1);
+    atualizarLista();
 }
-
-function salvarItem(item) {
-    const itens = JSON.parse(localStorage.getItem("mochilaMateria")) || [];
-    itens.push(item);
-    localStorage.setItem("mochilaMateria", JSON.stringify(itens));
-}
-
-function removerItem(item) {
-    let itens = JSON.parse(localStorage.getItem("mochilaMateria")) || [];
-    itens = itens.filter(i => i !== item);
-    localStorage.setItem("mochilaMateria", JSON.stringify(itens));
-}
-</script>
-
-</body>
-</html>
-    
