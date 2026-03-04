@@ -3,50 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mochila do Carlin - Minha Matéria</title>
+<title>Mochila do Carlin - Versão Profissional</title>
 
 <style>
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #4e73df, #1cc88a);
     margin: 0;
-    padding: 20px;
-    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
+    text-align: center;
 }
 
-h1 {
-    margin-bottom: 5px;
+header {
+    padding: 20px;
 }
 
 .container {
     background: white;
     color: black;
-    max-width: 500px;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 input {
     padding: 10px;
-    width: 65%;
-    border-radius: 5px;
+    width: 60%;
+    border-radius: 8px;
     border: 1px solid #ccc;
 }
 
 button {
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
-    background: #4e73df;
+    border-radius: 8px;
+    background: #2a5298;
     color: white;
     cursor: pointer;
 }
 
 button:hover {
-    background: #2e59d9;
+    background: #1e3c72;
 }
 
 ul {
@@ -56,22 +55,21 @@ ul {
 }
 
 li {
-    background: #f8f9fc;
-    margin: 8px 0;
+    background: #f4f6f9;
+    margin: 10px 0;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.remover {
-    background: red;
-    padding: 5px 8px;
-    font-size: 12px;
+.concluido {
+    text-decoration: line-through;
+    color: gray;
 }
 
-.contador {
+.info {
     margin-top: 10px;
     font-weight: bold;
 }
@@ -80,16 +78,18 @@ li {
 
 <body>
 
-<h1>🎒 Mochila do Carlin</h1>
-<p>Minha Matéria 📚</p>
+<header>
+    <h1>🎒 Mochila do Carlin</h1>
+    <p id="dataAtual"></p>
+</header>
 
 <div class="container">
-    <input type="text" id="itemInput" placeholder="Digite o material...">
+    <input type="text" id="itemInput" placeholder="Digite o material ou tarefa...">
     <button onclick="adicionarItem()">Adicionar</button>
 
     <ul id="lista"></ul>
 
-    <div class="contador">
+    <div class="info">
         Total de itens: <span id="total">0</span>
     </div>
 </div>
@@ -99,32 +99,56 @@ const input = document.getElementById("itemInput");
 const lista = document.getElementById("lista");
 const total = document.getElementById("total");
 
-let itens = JSON.parse(localStorage.getItem("mochilaCarlin")) || [];
+let itens = JSON.parse(localStorage.getItem("mochilaPro")) || [];
 
-function atualizarLista() {
+document.getElementById("dataAtual").innerText =
+    "Data: " + new Date().toLocaleDateString("pt-BR");
+
+function atualizar() {
     lista.innerHTML = "";
     itens.forEach((item, index) => {
         const li = document.createElement("li");
-        li.innerHTML = `
-            📘 ${item}
-            <button class="remover" onclick="removerItem(${index})">X</button>
-        `;
+
+        const span = document.createElement("span");
+        span.textContent = "📘 " + item.texto;
+        if (item.concluido) span.classList.add("concluido");
+
+        span.onclick = () => {
+            item.concluido = !item.concluido;
+            atualizar();
+        };
+
+        const btn = document.createElement("button");
+        btn.textContent = "Remover";
+        btn.onclick = () => {
+            itens.splice(index, 1);
+            atualizar();
+        };
+
+        li.appendChild(span);
+        li.appendChild(btn);
         lista.appendChild(li);
     });
+
     total.textContent = itens.length;
-    localStorage.setItem("mochilaCarlin", JSON.stringify(itens));
+    localStorage.setItem("mochilaPro", JSON.stringify(itens));
 }
 
 function adicionarItem() {
     const valor = input.value.trim();
     if (valor === "") return;
 
-    itens.push(valor);
+    itens.push({ texto: valor, concluido: false });
     input.value = "";
-    atualizarLista();
+    atualizar();
 }
 
-function removerItem(index) {
-    itens.splice(index, 1);
-    atualizarLista();
-}
+input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") adicionarItem();
+});
+
+atualizar();
+</script>
+
+</body>
+</html>
