@@ -1,3 +1,78 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<title>Caderno Digital</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#1e3c72;
+color:white;
+margin:0;
+padding:20px;
+}
+
+section{
+background:white;
+color:black;
+padding:20px;
+border-radius:10px;
+max-width:700px;
+margin:auto;
+}
+
+input, textarea{
+width:100%;
+padding:10px;
+margin:5px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 15px;
+background:#2a5298;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.card{
+background:#f2f2f2;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section>
+
+<h2>📓 Caderno Digital</h2>
+
+<input id="materiaNota" placeholder="Matéria">
+
+<input id="tituloNota" placeholder="Título da atividade">
+
+<textarea id="conteudoNota" rows="5" placeholder="Escreva a atividade..."></textarea>
+
+<button onclick="salvarNota()">Salvar anotação</button>
+
+<div id="listaNotas"></div>
+
+</section>
+
+<script>
+
 /* caderno digital */
 
 let notas = JSON.parse(localStorage.getItem("notas")) || []
@@ -8,13 +83,15 @@ localStorage.setItem("notas", JSON.stringify(notas))
 
 function salvarNota(){
 
+let materia = document.getElementById("materiaNota").value
 let titulo = document.getElementById("tituloNota").value
 let conteudo = document.getElementById("conteudoNota").value
 
-if(titulo=="" || conteudo=="") return
+if(materia=="" || titulo=="" || conteudo=="") return
 
-notas.push({titulo,conteudo})
+notas.push({materia,titulo,conteudo})
 
+document.getElementById("materiaNota").value=""
 document.getElementById("tituloNota").value=""
 document.getElementById("conteudoNota").value=""
 
@@ -34,7 +111,7 @@ let card=document.createElement("div")
 card.className="card"
 
 card.innerHTML =
-"<b>"+n.titulo+"</b><br>"+n.conteudo+
+"<b>📚 "+n.materia+"</b><br><b>"+n.titulo+"</b><br>"+n.conteudo+
 "<br><br><button onclick='removerNota("+i+")'>❌ Excluir</button>"
 
 div.appendChild(card)
@@ -53,3 +130,9 @@ mostrarNotas()
 }
 
 mostrarNotas()
+
+</script>
+
+</body>
+</html>
+```
