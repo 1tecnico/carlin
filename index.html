@@ -1,153 +1,269 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mochila do Carlin - Versão Profissional</title>
+
+<title>🎒 Mochila do Carlin</title>
+
+<link rel="manifest" href="manifest.json">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    text-align: center;
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+text-align:center;
 }
 
-header {
-    padding: 20px;
+header{
+padding:20px;
 }
 
-.container {
-    background: white;
-    color: black;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+.container{
+background:white;
+color:black;
+max-width:600px;
+margin:20px auto;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-input {
-    padding: 10px;
-    width: 60%;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+input{
+padding:10px;
+width:60%;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    background: #2a5298;
-    color: white;
-    cursor: pointer;
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#2a5298;
+color:white;
+cursor:pointer;
 }
 
-button:hover {
-    background: #1e3c72;
+button:hover{
+background:#1e3c72;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+ul{
+list-style:none;
+padding:0;
+margin-top:20px;
 }
 
-li {
-    background: #f4f6f9;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+li{
+background:#f4f6f9;
+margin:10px 0;
+padding:10px;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.concluido {
-    text-decoration: line-through;
-    color: gray;
+.concluido{
+text-decoration:line-through;
+color:gray;
 }
 
-.info {
-    margin-top: 10px;
-    font-weight: bold;
+.info{
+margin-top:10px;
+font-weight:bold;
+display:flex;
+justify-content:space-between;
 }
+
+/* modo escuro automático */
+
+@media (prefers-color-scheme: dark){
+
+body{
+background:#121212;
+}
+
+.container{
+background:#1e1e1e;
+color:white;
+}
+
+li{
+background:#333;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-    <h1>🎒 Mochila do Carlin</h1>
-    <p id="dataAtual"></p>
+
+<h1>🎒 Mochila do Carlin</h1>
+<p id="dataAtual"></p>
+
 </header>
 
 <div class="container">
-    <input type="text" id="itemInput" placeholder="Digite o material ou tarefa...">
-    <button onclick="adicionarItem()">Adicionar</button>
 
-    <ul id="lista"></ul>
+<input type="text" id="itemInput" placeholder="Digite material ou tarefa...">
+<button onclick="adicionarItem()">Adicionar</button>
 
-    <div class="info">
-        Total de itens: <span id="total">0</span>
-    </div>
+<ul id="lista"></ul>
+
+<div class="info">
+
+<span>Total: <span id="total">0</span></span>
+<span>Concluídos: <span id="concluidos">0</span></span>
+
+</div>
+
+<button onclick="limparTudo()">🗑 Limpar tudo</button>
+
 </div>
 
 <script>
-const input = document.getElementById("itemInput");
-const lista = document.getElementById("lista");
-const total = document.getElementById("total");
 
-let itens = JSON.parse(localStorage.getItem("mochilaPro")) || [];
+const input=document.getElementById("itemInput")
+const lista=document.getElementById("lista")
+const total=document.getElementById("total")
+const concluidos=document.getElementById("concluidos")
 
-document.getElementById("dataAtual").innerText =
-    "Data: " + new Date().toLocaleDateString("pt-BR");
+let itens=JSON.parse(localStorage.getItem("mochilaCarlin"))||[]
 
-function atualizar() {
-    lista.innerHTML = "";
-    itens.forEach((item, index) => {
-        const li = document.createElement("li");
+document.getElementById("dataAtual").innerText=
+"📅 "+new Date().toLocaleDateString("pt-BR")
 
-        const span = document.createElement("span");
-        span.textContent = "📘 " + item.texto;
-        if (item.concluido) span.classList.add("concluido");
+function atualizar(){
 
-        span.onclick = () => {
-            item.concluido = !item.concluido;
-            atualizar();
-        };
+lista.innerHTML=""
 
-        const btn = document.createElement("button");
-        btn.textContent = "Remover";
-        btn.onclick = () => {
-            itens.splice(index, 1);
-            atualizar();
-        };
+let feitos=0
 
-        li.appendChild(span);
-        li.appendChild(btn);
-        lista.appendChild(li);
-    });
+itens.forEach((item,index)=>{
 
-    total.textContent = itens.length;
-    localStorage.setItem("mochilaPro", JSON.stringify(itens));
+const li=document.createElement("li")
+
+const span=document.createElement("span")
+span.textContent="📘 "+item.texto
+
+if(item.concluido){
+
+span.classList.add("concluido")
+feitos++
+
 }
 
-function adicionarItem() {
-    const valor = input.value.trim();
-    if (valor === "") return;
+span.onclick=()=>{
 
-    itens.push({ texto: valor, concluido: false });
-    input.value = "";
-    atualizar();
+item.concluido=!item.concluido
+atualizar()
+
 }
 
-input.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") adicionarItem();
-});
+const btn=document.createElement("button")
+btn.textContent="Remover"
 
-atualizar();
+btn.onclick=()=>{
+
+itens.splice(index,1)
+atualizar()
+
+}
+
+li.appendChild(span)
+li.appendChild(btn)
+
+lista.appendChild(li)
+
+})
+
+total.textContent=itens.length
+concluidos.textContent=feitos
+
+localStorage.setItem("mochilaCarlin",JSON.stringify(itens))
+
+}
+
+function adicionarItem(){
+
+const valor=input.value.trim()
+
+if(valor==="") return
+
+itens.push({
+
+texto:valor,
+concluido:false
+
+})
+
+input.value=""
+
+notificar("Nova tarefa adicionada: "+valor)
+
+atualizar()
+
+}
+
+function limparTudo(){
+
+if(confirm("Apagar todos os itens?")){
+
+itens=[]
+atualizar()
+
+}
+
+}
+
+input.addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+
+adicionarItem()
+
+}
+
+})
+
+/* notificações */
+
+function notificar(msg){
+
+if(Notification.permission==="granted"){
+
+new Notification(msg)
+
+}
+
+}
+
+if("Notification" in window){
+
+Notification.requestPermission()
+
+}
+
+/* PWA */
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js")
+
+}
+
+atualizar()
+
 </script>
 
 </body>
