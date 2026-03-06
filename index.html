@@ -1,13 +1,15 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🎒 Mochila do Carlin</title>
+<title>Mochila Escolar</title>
 
-<link rel="manifest" href="manifest.json">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
@@ -16,26 +18,61 @@ margin:0;
 font-family:Segoe UI;
 background:linear-gradient(135deg,#1e3c72,#2a5298);
 color:white;
-text-align:center;
 }
 
 header{
+text-align:center;
 padding:20px;
+font-size:26px;
 }
 
-.container{
+.imagem-topo{
+text-align:center;
+margin-bottom:15px;
+}
+
+.imagem-topo img{
+max-width:300px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+nav{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:8px;
+padding:10px;
+}
+
+nav button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:white;
+color:#1e3c72;
+font-weight:bold;
+cursor:pointer;
+}
+
+section{
+display:none;
+max-width:900px;
+margin:auto;
 background:white;
 color:black;
-max-width:600px;
-margin:20px auto;
 padding:20px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
+margin-bottom:20px;
 }
 
-input{
+.active{
+display:block;
+}
+
+input,textarea{
 padding:10px;
-width:60%;
+margin:5px;
 border-radius:8px;
 border:1px solid #ccc;
 }
@@ -49,55 +86,33 @@ color:white;
 cursor:pointer;
 }
 
-button:hover{
-background:#1e3c72;
-}
-
 ul{
 list-style:none;
 padding:0;
-margin-top:20px;
 }
 
 li{
-background:#f4f6f9;
-margin:10px 0;
+background:#f1f3f7;
+margin:5px 0;
 padding:10px;
 border-radius:8px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 }
 
-.concluido{
-text-decoration:line-through;
-color:gray;
-}
-
-.info{
+.card{
+background:#f4f6f9;
+padding:15px;
+border-radius:10px;
 margin-top:10px;
-font-weight:bold;
-display:flex;
-justify-content:space-between;
 }
 
-/* modo escuro automático */
-
-@media (prefers-color-scheme: dark){
-
-body{
-background:#121212;
-}
-
-.container{
-background:#1e1e1e;
-color:white;
-}
-
-li{
-background:#333;
-}
-
+.calc{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:5px;
+max-width:260px;
+margin:auto;
 }
 
 </style>
@@ -107,164 +122,366 @@ background:#333;
 <body>
 
 <header>
-
-<h1>🎒 Mochila do Carlin</h1>
-<p id="dataAtual"></p>
-
+🎒 Mochila Escolar
 </header>
 
-<div class="container">
+<div class="imagem-topo">
+<img src="shrek.jpg">
+</div>
 
-<input type="text" id="itemInput" placeholder="Digite material ou tarefa...">
-<button onclick="adicionarItem()">Adicionar</button>
+<nav>
 
-<ul id="lista"></ul>
+<button onclick="abrir('tarefas')">📚 Tarefas</button>
+<button onclick="abrir('provas')">📅 Provas</button>
+<button onclick="abrir('notas')">📊 Notas</button>
+<button onclick="abrir('estudo')">🧠 Estudo</button>
+<button onclick="abrir('modoProva')">📝 Prova</button>
+<button onclick="abrir('resumos')">📚 Resumos</button>
+<button onclick="abrir('calculadora')">🧮 Calculadora</button>
 
-<div class="info">
+</nav>
 
-<span>Total: <span id="total">0</span></span>
-<span>Concluídos: <span id="concluidos">0</span></span>
+<section id="tarefas" class="active">
+
+<h2>Tarefas</h2>
+
+<input id="tarefaInput" placeholder="Nova tarefa">
+<button onclick="addTarefa()">Adicionar</button>
+
+<ul id="listaTarefas"></ul>
+
+</section>
+
+<section id="provas">
+
+<h2>Calendário de Provas</h2>
+
+<input type="date" id="dataProva">
+<input id="materiaProva" placeholder="Matéria">
+
+<button onclick="addProva()">Adicionar</button>
+
+<ul id="listaProvas"></ul>
+
+</section>
+
+<section id="notas">
+
+<h2>Gráfico de Notas</h2>
+
+<input id="materiaNota" placeholder="Matéria">
+<input id="valorNota" type="number" placeholder="Nota">
+
+<button onclick="addNota()">Adicionar</button>
+
+<canvas id="grafico"></canvas>
+
+</section>
+
+<section id="estudo">
+
+<h2>Modo Estudo</h2>
+
+<button onclick="gerarEstudo()">Gerar plano</button>
+
+<div id="planoEstudo"></div>
+
+</section>
+
+<section id="modoProva">
+
+<h2>Modo Prova</h2>
+
+<div id="pergunta"></div>
+
+<input id="respostaUsuario" placeholder="Resposta">
+
+<button onclick="verificar()">Responder</button>
+
+<p id="resultado"></p>
+
+</section>
+
+<section id="resumos">
+
+<h2>Resumos</h2>
+
+<textarea id="resumoTexto" rows="4"></textarea>
+
+<button onclick="salvarResumo()">Salvar</button>
+
+<div id="listaResumos"></div>
+
+</section>
+
+<section id="calculadora">
+
+<h2>Calculadora</h2>
+
+<input id="display" style="width:260px;font-size:20px;text-align:right">
+
+<div class="calc">
+
+<button onclick="addCalc('7')">7</button>
+<button onclick="addCalc('8')">8</button>
+<button onclick="addCalc('9')">9</button>
+<button onclick="addCalc('/')">÷</button>
+
+<button onclick="addCalc('4')">4</button>
+<button onclick="addCalc('5')">5</button>
+<button onclick="addCalc('6')">6</button>
+<button onclick="addCalc('*')">×</button>
+
+<button onclick="addCalc('1')">1</button>
+<button onclick="addCalc('2')">2</button>
+<button onclick="addCalc('3')">3</button>
+<button onclick="addCalc('-')">−</button>
+
+<button onclick="addCalc('0')">0</button>
+<button onclick="addCalc('.')">.</button>
+<button onclick="calcular()">=</button>
+<button onclick="addCalc('+')">+</button>
+
+<button onclick="limparCalc()" style="grid-column:span 4;background:red">Limpar</button>
 
 </div>
 
-<button onclick="limparTudo()">🗑 Limpar tudo</button>
-
-</div>
+</section>
 
 <script>
 
-const input=document.getElementById("itemInput")
-const lista=document.getElementById("lista")
-const total=document.getElementById("total")
-const concluidos=document.getElementById("concluidos")
+function abrir(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
+document.getElementById(id).classList.add("active")
+}
 
-let itens=JSON.parse(localStorage.getItem("mochilaCarlin"))||[]
+/* tarefas */
 
-document.getElementById("dataAtual").innerText=
-"📅 "+new Date().toLocaleDateString("pt-BR")
+let tarefas=JSON.parse(localStorage.getItem("tarefas"))||[]
 
-function atualizar(){
+function salvarTarefas(){
+localStorage.setItem("tarefas",JSON.stringify(tarefas))
+}
 
-lista.innerHTML=""
+function addTarefa(){
 
-let feitos=0
+let texto=document.getElementById("tarefaInput").value
+if(texto==="")return
 
-itens.forEach((item,index)=>{
+tarefas.push(texto)
 
-const li=document.createElement("li")
+document.getElementById("tarefaInput").value=""
 
-const span=document.createElement("span")
-span.textContent="📘 "+item.texto
-
-if(item.concluido){
-
-span.classList.add("concluido")
-feitos++
+salvarTarefas()
+mostrarTarefas()
 
 }
 
-span.onclick=()=>{
+function mostrarTarefas(){
 
-item.concluido=!item.concluido
-atualizar()
+let ul=document.getElementById("listaTarefas")
+ul.innerHTML=""
 
-}
+tarefas.forEach((t,i)=>{
 
-const btn=document.createElement("button")
-btn.textContent="Remover"
+let li=document.createElement("li")
 
-btn.onclick=()=>{
+li.innerHTML=t+" <button onclick='removerTarefa("+i+")'>❌</button>"
 
-itens.splice(index,1)
-atualizar()
-
-}
-
-li.appendChild(span)
-li.appendChild(btn)
-
-lista.appendChild(li)
+ul.appendChild(li)
 
 })
 
-total.textContent=itens.length
-concluidos.textContent=feitos
+}
 
-localStorage.setItem("mochilaCarlin",JSON.stringify(itens))
+function removerTarefa(i){
+
+tarefas.splice(i,1)
+
+salvarTarefas()
+mostrarTarefas()
 
 }
 
-function adicionarItem(){
+mostrarTarefas()
 
-const valor=input.value.trim()
+/* provas */
 
-if(valor==="") return
+let provas=[]
 
-itens.push({
+function addProva(){
 
-texto:valor,
-concluido:false
+let data=document.getElementById("dataProva").value
+let materia=document.getElementById("materiaProva").value
+
+if(data==""||materia=="")return
+
+provas.push({data,materia})
+
+mostrarProvas()
+
+}
+
+function mostrarProvas(){
+
+let ul=document.getElementById("listaProvas")
+ul.innerHTML=""
+
+provas.forEach(p=>{
+
+let li=document.createElement("li")
+
+li.innerText=p.materia+" - "+p.data
+
+ul.appendChild(li)
 
 })
 
-input.value=""
+}
 
-notificar("Nova tarefa adicionada: "+valor)
+/* notas */
 
-atualizar()
+let materias=[]
+let notas=[]
+
+let chart=new Chart(document.getElementById("grafico"),{
+type:"bar",
+data:{labels:materias,datasets:[{label:"Notas",data:notas}]}
+})
+
+function addNota(){
+
+let m=document.getElementById("materiaNota").value
+let n=document.getElementById("valorNota").value
+
+materias.push(m)
+notas.push(n)
+
+chart.update()
 
 }
 
-function limparTudo(){
+/* estudo */
 
-if(confirm("Apagar todos os itens?")){
+function gerarEstudo(){
 
-itens=[]
-atualizar()
+let materias=["Matemática","Português","História","Geografia","Ciências"]
 
-}
+let div=document.getElementById("planoEstudo")
 
-}
+div.innerHTML=""
 
-input.addEventListener("keypress",function(e){
+materias.forEach(m=>{
 
-if(e.key==="Enter"){
+let c=document.createElement("div")
 
-adicionarItem()
+c.className="card"
 
-}
+c.innerText="Estudar "+m+" por 30 minutos"
+
+div.appendChild(c)
 
 })
 
-/* notificações */
+}
 
-function notificar(msg){
+/* modo prova */
 
-if(Notification.permission==="granted"){
+let perguntas=[
+{p:"5+5?",r:"10"},
+{p:"Capital do Brasil?",r:"brasilia"},
+{p:"3x3?",r:"9"}
+]
 
-new Notification(msg)
+let atual=0
 
+function novaPergunta(){
+
+document.getElementById("pergunta").innerText=perguntas[atual].p
+
+}
+
+function verificar(){
+
+let resp=document.getElementById("respostaUsuario").value.toLowerCase()
+
+if(resp==perguntas[atual].r){
+document.getElementById("resultado").innerText="✅ Correto"
+}else{
+document.getElementById("resultado").innerText="❌ Errado"
+}
+
+atual=(atual+1)%perguntas.length
+
+novaPergunta()
+
+document.getElementById("respostaUsuario").value=""
+
+}
+
+novaPergunta()
+
+/* resumos */
+
+let resumos=[]
+
+function salvarResumo(){
+
+let txt=document.getElementById("resumoTexto").value
+
+if(txt==="")return
+
+resumos.push(txt)
+
+mostrarResumos()
+
+document.getElementById("resumoTexto").value=""
+
+}
+
+function mostrarResumos(){
+
+let div=document.getElementById("listaResumos")
+
+div.innerHTML=""
+
+resumos.forEach(r=>{
+
+let c=document.createElement("div")
+
+c.className="card"
+
+c.innerText=r
+
+div.appendChild(c)
+
+})
+
+}
+
+/* calculadora */
+
+function addCalc(v){
+document.getElementById("display").value+=v
+}
+
+function calcular(){
+
+try{
+document.getElementById("display").value=
+eval(document.getElementById("display").value)
+}catch{
+document.getElementById("display").value="Erro"
 }
 
 }
 
-if("Notification" in window){
-
-Notification.requestPermission()
-
+function limparCalc(){
+document.getElementById("display").value=""
 }
-
-/* PWA */
-
-if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("service-worker.js")
-
-}
-
-atualizar()
 
 </script>
 
 </body>
 </html>
+```
