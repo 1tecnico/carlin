@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mochila Escolar</title>
+<title>Mochila Escolar IA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -122,7 +122,7 @@ margin:auto;
 <body>
 
 <header>
-🎒 Mochila Escolar
+🎒 Mochila Escolar Inteligente
 </header>
 
 <div class="imagem-topo">
@@ -138,6 +138,7 @@ margin:auto;
 <button onclick="abrir('modoProva')">📝 Prova</button>
 <button onclick="abrir('resumos')">📚 Resumos</button>
 <button onclick="abrir('calculadora')">🧮 Calculadora</button>
+<button onclick="abrir('iaPerguntas')">🤖 IA Perguntas</button>
 
 </nav>
 
@@ -245,6 +246,18 @@ margin:auto;
 <button onclick="limparCalc()" style="grid-column:span 4;background:red">Limpar</button>
 
 </div>
+
+</section>
+
+<section id="iaPerguntas">
+
+<h2>IA Geradora de Perguntas</h2>
+
+<input id="materiaIA" placeholder="Digite a matéria">
+
+<button onclick="gerarPerguntasIA()">Gerar perguntas</button>
+
+<div id="listaPerguntasIA"></div>
 
 </section>
 
@@ -396,9 +409,7 @@ let perguntas=[
 let atual=0
 
 function novaPergunta(){
-
 document.getElementById("pergunta").innerText=perguntas[atual].p
-
 }
 
 function verificar(){
@@ -478,6 +489,57 @@ document.getElementById("display").value="Erro"
 
 function limparCalc(){
 document.getElementById("display").value=""
+}
+
+/* IA perguntas */
+
+function gerarPerguntasIA(){
+
+let materia=document.getElementById("materiaIA").value.toLowerCase()
+
+let perguntas=[]
+
+if(materia.includes("mat")){
+perguntas=[
+"Quanto é 8 x 7?",
+"Quanto é 25 + 18?",
+"Quanto é 100 ÷ 4?",
+"Quanto é 9²?"
+]
+}
+
+else if(materia.includes("hist")){
+perguntas=[
+"Em que ano o Brasil foi descoberto?",
+"Quem foi Dom Pedro I?",
+"O que foi a Revolução Francesa?"
+]
+}
+
+else{
+perguntas=[
+"Explique o conteúdo estudado.",
+"Quais são os pontos principais?",
+"O que você aprendeu hoje?"
+]
+}
+
+let div=document.getElementById("listaPerguntasIA")
+
+div.innerHTML=""
+
+perguntas.forEach(p=>{
+
+let card=document.createElement("div")
+
+card.className="card"
+
+card.innerText=p
+
+div.appendChild(card)
+
+})
+
 }
 
 </script>
