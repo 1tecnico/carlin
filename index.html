@@ -1,11 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Mochila Escolar IA</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -139,6 +138,7 @@ margin:auto;
 <button onclick="abrir('calculadora')">🧮 Calculadora</button>
 <button onclick="abrir('iaPerguntas')">🤖 IA Perguntas</button>
 <button onclick="abrir('caderno')">📓 Caderno</button>
+<button onclick="abrir('duolingo')">🏆 Estudo Game</button>
 
 </nav>
 
@@ -210,6 +210,7 @@ margin:auto;
 <textarea id="resumoTexto" rows="4"></textarea>
 
 <button onclick="salvarResumo()">Salvar</button>
+<button onclick="gerarResumoIA()">Gerar resumo automático</button>
 
 <div id="listaResumos"></div>
 
@@ -265,21 +266,44 @@ margin:auto;
 
 <h2>📓 Caderno Digital</h2>
 
-<input id="tituloNota" placeholder="Título da anotação">
+<input id="materiaNotaCaderno" placeholder="Matéria">
+<br>
 
+<input id="tituloNota" placeholder="Título da anotação">
 <br>
 
 <textarea id="conteudoNota" rows="5" placeholder="Escreva sua anotação..."></textarea>
-
 <br>
 
 <button onclick="salvarNota()">Salvar anotação</button>
+
+<br><br>
+
+<input id="buscarNota" placeholder="Pesquisar matéria" onkeyup="buscarNotas()">
 
 <div id="listaNotas"></div>
 
 </section>
 
+<section id="duolingo">
+
+<h2>🏆 Modo Estudo (Game)</h2>
+
+<p id="perguntaGame"></p>
+
+<input id="respostaGame" placeholder="Digite sua resposta">
+
+<button onclick="responderGame()">Responder</button>
+
+<p id="resultadoGame"></p>
+
+<h3>Pontos: <span id="pontos">0</span></h3>
+
+</section>
+
 <script>
+
+/* abrir abas */
 
 function abrir(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
@@ -416,143 +440,103 @@ div.appendChild(c)
 
 }
 
-/* modo prova */
+/* CADERNO */
 
-let perguntas=[
-{p:"5+5?",r:"10"},
-{p:"Capital do Brasil?",r:"brasilia"},
-{p:"3x3?",r:"9"}
-]
+let notasCaderno = JSON.parse(localStorage.getItem("notasCaderno")) || [];
 
-let atual=0
+function salvarNota(){
 
-function novaPergunta(){
-document.getElementById("pergunta").innerText=perguntas[atual].p
+let materia=document.getElementById("materiaNotaCaderno").value.trim()
+let titulo=document.getElementById("tituloNota").value.trim()
+let conteudo=document.getElementById("conteudoNota").value.trim()
+
+if(materia==""||titulo==""||conteudo=="") return
+
+notasCaderno.push({materia,titulo,conteudo})
+
+localStorage.setItem("notasCaderno",JSON.stringify(notasCaderno))
+
+document.getElementById("materiaNotaCaderno").value=""
+document.getElementById("tituloNota").value=""
+document.getElementById("conteudoNota").value=""
+
+mostrarNotas()
 }
 
-function verificar(){
+function mostrarNotas(){
 
-let resp=document.getElementById("respostaUsuario").value.toLowerCase()
-
-if(resp==perguntas[atual].r){
-document.getElementById("resultado").innerText="✅ Correto"
-}else{
-document.getElementById("resultado").innerText="❌ Errado"
-}
-
-atual=(atual+1)%perguntas.length
-
-novaPergunta()
-
-document.getElementById("respostaUsuario").value=""
-
-}
-
-novaPergunta()
-
-/* resumos */
-
-let resumos=[]
-
-function salvarResumo(){
-
-let txt=document.getElementById("resumoTexto").value
-
-if(txt==="")return
-
-resumos.push(txt)
-
-mostrarResumos()
-
-document.getElementById("resumoTexto").value=""
-
-}
-
-function mostrarResumos(){
-
-let div=document.getElementById("listaResumos")
-
+let div=document.getElementById("listaNotas")
 div.innerHTML=""
 
-resumos.forEach(r=>{
+let materias = {}
 
-let c=document.createElement("div")
+notasCaderno.forEach((nota,i)=>{
 
-c.className="card"
+if(!materias[nota.materia]){
+materias[nota.materia]=[]
+}
 
-c.innerText=r
-
-div.appendChild(c)
+materias[nota.materia].push({...nota,index:i})
 
 })
 
+for(let materia in materias){
+
+let bloco=document.createElement("div")
+bloco.className="card"
+
+let tituloMateria=document.createElement("h3")
+tituloMateria.innerText="📘 "+materia
+
+bloco.appendChild(tituloMateria)
+
+materias[materia].forEach(n=>{
+
+let notaDiv=document.createElement("div")
+
+notaDiv.style.borderTop="1px solid #ccc"
+notaDiv.style.marginTop="8px"
+notaDiv.style.paddingTop="8px"
+
+notaDiv.innerHTML=
+"<b>"+n.titulo+"</b><br>"+n.conteudo+
+"<br><button onclick='removerNota("+n.index+")'>Excluir</button>"
+
+bloco.appendChild(notaDiv)
+
+})
+
+div.appendChild(bloco)
+
 }
 
-/* calculadora */
-
-function addCalc(v){
-document.getElementById("display").value+=v
 }
 
-function calcular(){
+function removerNota(i){
 
-try{
-document.getElementById("display").value=
-eval(document.getElementById("display").value)
-}catch{
-document.getElementById("display").value="Erro"
-}
+notasCaderno.splice(i,1)
+
+localStorage.setItem("notasCaderno",JSON.stringify(notasCaderno))
+
+mostrarNotas()
 
 }
 
-function limparCalc(){
-document.getElementById("display").value=""
-}
+function buscarNotas(){
 
-/* IA perguntas */
+let pesquisa=document.getElementById("buscarNota").value.toLowerCase()
 
-function gerarPerguntasIA(){
-
-let materia=document.getElementById("materiaIA").value.toLowerCase()
-
-let perguntas=[]
-
-if(materia.includes("mat")){
-perguntas=[
-"Quanto é 8 x 7?",
-"Quanto é 25 + 18?",
-"Quanto é 100 ÷ 4?",
-"Quanto é 9²?"
-]
-}
-
-else if(materia.includes("hist")){
-perguntas=[
-"Em que ano o Brasil foi descoberto?",
-"Quem foi Dom Pedro I?",
-"O que foi a Revolução Francesa?"
-]
-}
-
-else{
-perguntas=[
-"Explique o conteúdo estudado.",
-"Quais são os pontos principais?",
-"O que você aprendeu hoje?"
-]
-}
-
-let div=document.getElementById("listaPerguntasIA")
-
+let div=document.getElementById("listaNotas")
 div.innerHTML=""
 
-perguntas.forEach(p=>{
+let filtradas=notasCaderno.filter(n=>n.materia.toLowerCase().includes(pesquisa))
+
+filtradas.forEach(n=>{
 
 let card=document.createElement("div")
 
 card.className="card"
-
-card.innerText=p
+card.innerHTML="<b>"+n.materia+"</b><br>"+n.titulo+"<br>"+n.conteudo
 
 div.appendChild(card)
 
@@ -560,60 +544,54 @@ div.appendChild(card)
 
 }
 
-/* CADERNO */
-
-let notasCaderno = JSON.parse(localStorage.getItem("notasCaderno")) || [];
-
-function salvarNota(){
-
-let titulo = document.getElementById("tituloNota").value;
-let conteudo = document.getElementById("conteudoNota").value;
-
-if(titulo === "" || conteudo === "") return;
-
-notasCaderno.push({titulo, conteudo});
-
-localStorage.setItem("notasCaderno", JSON.stringify(notasCaderno));
-
-document.getElementById("tituloNota").value="";
-document.getElementById("conteudoNota").value="";
-
-mostrarNotas();
-}
-
-function mostrarNotas(){
-
-let div=document.getElementById("listaNotas");
-
-div.innerHTML="";
-
-notasCaderno.forEach((nota,i)=>{
-
-let card=document.createElement("div");
-
-card.className="card";
-
-card.innerHTML="<b>"+nota.titulo+"</b><br>"+nota.conteudo+"<br><br><button onclick='removerNota("+i+")'>❌ Excluir</button>";
-
-div.appendChild(card);
-
-});
-
-}
-
-function removerNota(i){
-
-notasCaderno.splice(i,1);
-
-localStorage.setItem("notasCaderno", JSON.stringify(notasCaderno));
-
-mostrarNotas();
-
-}
-
 mostrarNotas()
+
+/* estudo game */
+
+let pontos=0
+
+let perguntasGame=[
+{p:"6 x 6 ?",r:"36"},
+{p:"Capital da França ?",r:"paris"},
+{p:"50 ÷ 5 ?",r:"10"}
+]
+
+let perguntaAtual=0
+
+function mostrarPerguntaGame(){
+document.getElementById("perguntaGame").innerText=perguntasGame[perguntaAtual].p
+}
+
+function responderGame(){
+
+let resp=document.getElementById("respostaGame").value.toLowerCase()
+
+if(resp==perguntasGame[perguntaAtual].r){
+
+pontos++
+
+document.getElementById("resultadoGame").innerText="✅ Correto"
+
+}else{
+
+document.getElementById("resultadoGame").innerText="❌ Errado"
+
+}
+
+document.getElementById("pontos").innerText=pontos
+
+perguntaAtual=(perguntaAtual+1)%perguntasGame.length
+
+document.getElementById("respostaGame").value=""
+
+mostrarPerguntaGame()
+
+}
+
+mostrarPerguntaGame()
 
 </script>
 
 </body>
 </html>
+```
