@@ -143,83 +143,52 @@ margin:auto;
 </nav>
 
 <section id="tarefas" class="active">
-
 <h2>Tarefas</h2>
-
 <input id="tarefaInput" placeholder="Nova tarefa">
 <button onclick="addTarefa()">Adicionar</button>
-
 <ul id="listaTarefas"></ul>
-
 </section>
 
 <section id="provas">
-
 <h2>Calendário de Provas</h2>
-
 <input type="date" id="dataProva">
 <input id="materiaProva" placeholder="Matéria">
-
 <button onclick="addProva()">Adicionar</button>
-
 <ul id="listaProvas"></ul>
-
 </section>
 
 <section id="notas">
-
 <h2>Gráfico de Notas</h2>
-
 <input id="materiaNota" placeholder="Matéria">
 <input id="valorNota" type="number" placeholder="Nota">
-
 <button onclick="addNota()">Adicionar</button>
-
 <canvas id="grafico"></canvas>
-
 </section>
 
 <section id="estudo">
-
 <h2>Modo Estudo</h2>
-
 <button onclick="gerarEstudo()">Gerar plano</button>
-
 <div id="planoEstudo"></div>
-
 </section>
 
 <section id="modoProva">
-
 <h2>Modo Prova</h2>
-
 <div id="pergunta"></div>
-
 <input id="respostaUsuario" placeholder="Resposta">
-
 <button onclick="verificar()">Responder</button>
-
 <p id="resultado"></p>
-
 </section>
 
 <section id="resumos">
-
 <h2>Resumos</h2>
-
 <textarea id="resumoTexto" rows="4"></textarea>
-
 <button onclick="salvarResumo()">Salvar</button>
 <button onclick="gerarResumoIA()">Gerar resumo automático</button>
-
 <div id="listaResumos"></div>
-
 </section>
 
 <section id="calculadora">
-
 <h2>Calculadora</h2>
-
 <input id="display" style="width:260px;font-size:20px;text-align:right">
 
 <div class="calc">
@@ -247,19 +216,13 @@ margin:auto;
 <button onclick="limparCalc()" style="grid-column:span 4;background:red">Limpar</button>
 
 </div>
-
 </section>
 
 <section id="iaPerguntas">
-
 <h2>IA Geradora de Perguntas</h2>
-
 <input id="materiaIA" placeholder="Digite a matéria">
-
 <button onclick="gerarPerguntasIA()">Gerar perguntas</button>
-
 <div id="listaPerguntasIA"></div>
-
 </section>
 
 <section id="caderno">
@@ -468,45 +431,40 @@ function mostrarNotas(){
 let div=document.getElementById("listaNotas")
 div.innerHTML=""
 
-let materias = {}
-
 notasCaderno.forEach((nota,i)=>{
 
-if(!materias[nota.materia]){
-materias[nota.materia]=[]
+let card=document.createElement("div")
+card.className="card"
+
+card.innerHTML="<b>"+nota.materia+"</b><br>"+nota.titulo+"<br>"+nota.conteudo+
+"<br><button onclick='editarNota("+i+")'>✏️ Editar</button> "+
+"<button onclick='removerNota("+i+")'>❌ Excluir</button>"
+
+div.appendChild(card)
+
+})
+
 }
 
-materias[nota.materia].push({...nota,index:i})
+function editarNota(i){
 
-})
+let nota = notasCaderno[i]
 
-for(let materia in materias){
+let novaMateria = prompt("Editar matéria:", nota.materia)
+let novoTitulo = prompt("Editar título:", nota.titulo)
+let novoConteudo = prompt("Editar conteúdo:", nota.conteudo)
 
-let bloco=document.createElement("div")
-bloco.className="card"
+if(novaMateria && novoTitulo && novoConteudo){
 
-let tituloMateria=document.createElement("h3")
-tituloMateria.innerText="📘 "+materia
+notasCaderno[i] = {
+materia: novaMateria,
+titulo: novoTitulo,
+conteudo: novoConteudo
+}
 
-bloco.appendChild(tituloMateria)
+localStorage.setItem("notasCaderno", JSON.stringify(notasCaderno))
 
-materias[materia].forEach(n=>{
-
-let notaDiv=document.createElement("div")
-
-notaDiv.style.borderTop="1px solid #ccc"
-notaDiv.style.marginTop="8px"
-notaDiv.style.paddingTop="8px"
-
-notaDiv.innerHTML=
-"<b>"+n.titulo+"</b><br>"+n.conteudo+
-"<br><button onclick='removerNota("+n.index+")'>Excluir</button>"
-
-bloco.appendChild(notaDiv)
-
-})
-
-div.appendChild(bloco)
+mostrarNotas()
 
 }
 
@@ -534,7 +492,6 @@ let filtradas=notasCaderno.filter(n=>n.materia.toLowerCase().includes(pesquisa))
 filtradas.forEach(n=>{
 
 let card=document.createElement("div")
-
 card.className="card"
 card.innerHTML="<b>"+n.materia+"</b><br>"+n.titulo+"<br>"+n.conteudo
 
