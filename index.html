@@ -7,276 +7,394 @@
 
 <style>
 body{
-margin:0;
-font-family:Segoe UI;
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
+  margin:0;
+  font-family:Segoe UI;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  color:white;
 }
-
 header{
-text-align:center;
-padding:20px;
-font-size:26px;
+  text-align:center;
+  padding:20px;
+  font-size:26px;
 }
-
 nav{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:8px;
-padding:10px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  padding:10px;
 }
-
 nav button{
-padding:10px;
-border:none;
-border-radius:10px;
-background:white;
-color:#1e3c72;
-font-weight:bold;
-cursor:pointer;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:white;
+  color:#1e3c72;
+  font-weight:bold;
+  cursor:pointer;
 }
-
 section{
-display:none;
-max-width:900px;
-margin:auto;
-background:white;
-color:black;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
+  display:none;
+  max-width:900px;
+  margin:auto;
+  background:white;
+  color:black;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
 }
-
 .active{display:block;}
-
 input,textarea{
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:1px solid #ccc;
-width:90%;
+  padding:10px;
+  margin:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  width:90%;
 }
-
 button{
-padding:10px;
-border:none;
-border-radius:8px;
-background:#2a5298;
-color:white;
-cursor:pointer;
-margin:3px;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#2a5298;
+  color:white;
+  cursor:pointer;
+  margin:3px;
 }
-
 .card{
-background:#f4f6f9;
-padding:10px;
-border-radius:10px;
-margin-top:10px;
+  background:#f4f6f9;
+  padding:10px;
+  border-radius:10px;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>🎒 Mochila Escolar PRO</header>
+<header>
+🎒 Mochila Escolar PRO | <span id="relogio"></span>
+</header>
 
 <nav>
-<button onclick="abrir('caderno')">📓 Caderno</button>
-<button onclick="abrir('notas')">📊 Notas</button>
-<button onclick="abrir('provas')">📅 Provas</button>
-<button onclick="abrir('game')">🎮 Game</button>
+  <button onclick="abrir('caderno')">📓 Caderno</button>
+  <button onclick="abrir('notas')">📊 Notas</button>
+  <button onclick="abrir('provas')">📅 Provas</button>
+  <button onclick="abrir('tarefas')">📌 Tarefas/Agenda</button>
+  <button onclick="abrir('game')">🎮 Game</button>
+  <button onclick="abrir('calculadora')">🧮 Calculadora</button>
 </nav>
 
 <!-- CADERNO -->
 <section id="caderno" class="active">
 <h2>Caderno Inteligente</h2>
-
 <input id="materia" placeholder="Matéria">
 <input id="titulo" placeholder="Título">
 <textarea id="conteudo" rows="4"></textarea>
-
 <br>
 <button onclick="salvarNota()">Salvar</button>
 <button onclick="gerarResumo()">Resumo IA</button>
 <button onclick="gerarPergunta()">Perguntas IA</button>
 <button onclick="dica()">Dica</button>
-
 <br><br>
 <input id="buscar" onkeyup="buscar()" placeholder="Pesquisar...">
-
 <div id="lista"></div>
 </section>
 
 <!-- NOTAS -->
 <section id="notas">
-<h2>Notas</h2>
-
+<h2>Notas por Matéria</h2>
+<input id="notaMateria" placeholder="Matéria">
 <input id="notaInput" type="number" placeholder="Nota">
 <button onclick="addNota()">Adicionar</button>
 
 <p>Média: <span id="media">0</span></p>
+<div id="notasPorMateria"></div>
 </section>
 
 <!-- PROVAS -->
 <section id="provas">
 <h2>Provas</h2>
-
 <input type="date" id="data">
 <input id="materiaProva" placeholder="Matéria">
 <button onclick="addProva()">Salvar</button>
-
 <div id="listaProvas"></div>
+</section>
+
+<!-- TAREFAS/AGENDA -->
+<section id="tarefas">
+<h2>Tarefas/Agenda</h2>
+<input id="tarefaTitulo" placeholder="Título">
+<input id="tarefaMateria" placeholder="Matéria">
+<input type="date" id="tarefaData">
+<textarea id="tarefaDescricao" rows="2" placeholder="Descrição"></textarea>
+<br>
+<button onclick="addTarefa()">Adicionar</button>
+<div id="listaTarefas"></div>
 </section>
 
 <!-- GAME -->
 <section id="game">
 <h2>Gamificação</h2>
-
 <p>Pontos: <span id="pontos">0</span></p>
 <p>Streak: <span id="streak">0</span></p>
-
 <button onclick="estudei()">Estudei hoje</button>
 </section>
 
-<script>
+<!-- CALCULADORA -->
+<section id="calculadora">
+<h2>Calculadora</h2>
+<input type="text" id="display" readonly style="width:95%; padding:10px; font-size:18px; margin-bottom:10px; text-align:right;">
+<br>
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px; max-width:300px; margin:auto;">
+<button onclick="addCalc('7')">7</button>
+<button onclick="addCalc('8')">8</button>
+<button onclick="addCalc('9')">9</button>
+<button onclick="addCalc('/')">/</button>
 
-/* ABAS */
+<button onclick="addCalc('4')">4</button>
+<button onclick="addCalc('5')">5</button>
+<button onclick="addCalc('6')">6</button>
+<button onclick="addCalc('*')">*</button>
+
+<button onclick="addCalc('1')">1</button>
+<button onclick="addCalc('2')">2</button>
+<button onclick="addCalc('3')">3</button>
+<button onclick="addCalc('-')">-</button>
+
+<button onclick="addCalc('0')">0</button>
+<button onclick="addCalc('.')">.</button>
+<button onclick="calcular()">=</button>
+<button onclick="addCalc('+')">+</button>
+
+<button style="grid-column:span 4; background:#e74c3c;" onclick="limpar()">C</button>
+</div>
+</section>
+
+<script>
+/* ================= ABAS ================= */
 function abrir(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
-document.getElementById(id).classList.add("active")
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
+  document.getElementById(id).classList.add("active")
 }
 
-/* ================= CADERNO ================= */
+/* ================= RELÓGIO ================= */
+function atualizarRelogio(){
+  let now = new Date()
+  document.getElementById("relogio").innerText = now.toLocaleTimeString()
+}
+setInterval(atualizarRelogio,1000)
+atualizarRelogio()
 
+/* ================= CADERNO ================= */
 let notas = JSON.parse(localStorage.getItem("notas")) || []
 
 function salvarNota(){
-let m=materia.value
-let t=titulo.value
-let c=conteudo.value
-
-if(!m||!t||!c)return
-
-notas.push({m,t,c,data:new Date().toLocaleDateString()})
-
-localStorage.setItem("notas",JSON.stringify(notas))
-
-mostrar()
+  let m=materia.value
+  let t=titulo.value
+  let c=conteudo.value
+  if(!m||!t||!c)return
+  notas.push({m,t,c,data:new Date().toLocaleDateString()})
+  localStorage.setItem("notas",JSON.stringify(notas))
+  mostrar()
 }
 
 function mostrar(){
-lista.innerHTML=""
-
-notas.forEach((n,i)=>{
-lista.innerHTML+=`
-<div class="card">
-<b>${n.m}</b> (${n.data})<br>
-${n.t}<br>${n.c}
-<br>
-<button onclick="editar(${i})">✏️</button>
-<button onclick="excluir(${i})">❌</button>
-</div>`
-})
+  lista.innerHTML=""
+  notas.forEach((n,i)=>{
+    lista.innerHTML+=`
+    <div class="card">
+      <b>${n.m}</b> (${n.data})<br>
+      ${n.t}<br>${n.c}
+      <br>
+      <button onclick="editar(${i})">✏️</button>
+      <button onclick="excluir(${i})">❌</button>
+    </div>`
+  })
 }
 
 function editar(i){
-let n=notas[i]
-
-let m=prompt("Matéria:",n.m)
-let t=prompt("Título:",n.t)
-let c=prompt("Conteúdo:",n.c)
-
-if(m&&t&&c){
-notas[i]={...n,m,t,c}
-localStorage.setItem("notas",JSON.stringify(notas))
-mostrar()
-}
+  let n=notas[i]
+  let m=prompt("Matéria:",n.m)
+  let t=prompt("Título:",n.t)
+  let c=prompt("Conteúdo:",n.c)
+  if(m&&t&&c){
+    notas[i]={...n,m,t,c}
+    localStorage.setItem("notas",JSON.stringify(notas))
+    mostrar()
+  }
 }
 
 function excluir(i){
-notas.splice(i,1)
-localStorage.setItem("notas",JSON.stringify(notas))
-mostrar()
+  notas.splice(i,1)
+  localStorage.setItem("notas",JSON.stringify(notas))
+  mostrar()
 }
 
 function buscar(){
-let termo=buscar.value.toLowerCase()
-
-lista.innerHTML=""
-
-notas.filter(n=>n.m.toLowerCase().includes(termo)||n.t.toLowerCase().includes(termo))
-.forEach(n=>{
-lista.innerHTML+=`<div class="card"><b>${n.m}</b><br>${n.t}<br>${n.c}</div>`
-})
+  let termo=buscar.value.toLowerCase()
+  lista.innerHTML=""
+  notas.filter(n=>n.m.toLowerCase().includes(termo)||n.t.toLowerCase().includes(termo))
+  .forEach(n=>{
+    lista.innerHTML+=`<div class="card"><b>${n.m}</b><br>${n.t}<br>${n.c}</div>`
+  })
 }
 
-/* ================= IA ================= */
-
 function gerarResumo(){
-let txt=conteudo.value
-alert("Resumo: "+txt.split(".").slice(0,2).join("."))
+  let txt=conteudo.value
+  alert("Resumo: "+txt.split(".").slice(0,2).join("."))
 }
 
 function gerarPergunta(){
-let txt=conteudo.value
-let p=txt.split(" ").slice(0,5).join(" ")
-alert("Pergunta: Explique "+p)
+  let txt=conteudo.value
+  let p=txt.split(" ").slice(0,5).join(" ")
+  alert("Pergunta: Explique "+p)
 }
 
 function dica(){
-alert("💡 Revise em 24h e depois em 7 dias.")
+  alert("💡 Revise em 24h e depois em 7 dias.")
 }
 
 /* ================= NOTAS ================= */
-
 let listaNotas = JSON.parse(localStorage.getItem("notasNum")) || []
 
 function addNota(){
-let n=parseFloat(notaInput.value)
-if(!n)return
+  let n=parseFloat(notaInput.value)
+  let m=notaMateria.value
+  if(!n||!m)return
+  listaNotas.push({n,m})
+  localStorage.setItem("notasNum",JSON.stringify(listaNotas))
+  atualizarNotas()
+}
 
-listaNotas.push(n)
-
-localStorage.setItem("notasNum",JSON.stringify(listaNotas))
-
-let media = listaNotas.reduce((a,b)=>a+b,0)/listaNotas.length
-document.getElementById("media").innerText=media.toFixed(2)
+function atualizarNotas(){
+  let mediaGeral = listaNotas.reduce((a,b)=>a+n,0)/listaNotas.length || 0
+  document.getElementById("media").innerText = mediaGeral.toFixed(2)
+  
+  let notasPorMateria = {}
+  listaNotas.forEach(n=>{
+    if(!notasPorMateria[n.m]) notasPorMateria[n.m]=[]
+    notasPorMateria[n.m].push(n.n)
+  })
+  
+  let div = document.getElementById("notasPorMateria")
+  div.innerHTML=""
+  for(let m in notasPorMateria){
+    let listaM = notasPorMateria[m]
+    let mediaM = listaM.reduce((a,b)=>a+b,0)/listaM.length
+    div.innerHTML+=`<div class="card"><b>${m}</b> Média: ${mediaM.toFixed(2)}</div>`
+  }
 }
 
 /* ================= PROVAS ================= */
-
 let provas = JSON.parse(localStorage.getItem("provas")) || []
 
 function addProva(){
-provas.push({data:data.value,materia:materiaProva.value})
-localStorage.setItem("provas",JSON.stringify(provas))
-alert("Salvo!")
+  let d = data.value
+  let m = materiaProva.value
+  if(!d||!m)return
+  provas.push({data:d,materia:m})
+  localStorage.setItem("provas",JSON.stringify(provas))
+  mostrarProvas()
+}
+
+function mostrarProvas(){
+  listaProvas.innerHTML=""
+  let hoje = new Date()
+  provas.forEach((p,i)=>{
+    let pData = new Date(p.data)
+    let diffDias = Math.ceil((pData-hoje)/(1000*60*60*24))
+    let aviso = diffDias<=3 ? " ⚠️ Próxima!" : ""
+    listaProvas.innerHTML+=`<div class="card">${p.data} - ${p.materia}${aviso}</div>`
+  })
+}
+
+/* ================= TAREFAS ================= */
+let tarefas = JSON.parse(localStorage.getItem("tarefas")) || []
+
+function addTarefa(){
+  let t=tarefaTitulo.value
+  let m=tarefaMateria.value
+  let d=tarefaData.value
+  let desc=tarefaDescricao.value
+  if(!t||!d)return
+  tarefas.push({t,m,d,desc,feito:false})
+  localStorage.setItem("tarefas",JSON.stringify(tarefas))
+  mostrarTarefas()
+}
+
+function mostrarTarefas(){
+  listaTarefas.innerHTML=""
+  tarefas.forEach((t,i)=>{
+    let done = t.feito ? "✅" : ""
+    listaTarefas.innerHTML+=`
+    <div class="card">
+      ${done} <b>${t.t}</b> (${t.m}) - ${t.d}<br>${t.desc}
+      <br>
+      <button onclick="marcarTarefa(${i})">✔️ Concluída</button>
+      <button onclick="excluirTarefa(${i})">❌</button>
+    </div>`
+  })
+}
+
+function marcarTarefa(i){
+  tarefas[i].feito = !tarefas[i].feito
+  localStorage.setItem("tarefas",JSON.stringify(tarefas))
+  mostrarTarefas()
+}
+
+function excluirTarefa(i){
+  tarefas.splice(i,1)
+  localStorage.setItem("tarefas",JSON.stringify(tarefas))
+  mostrarTarefas()
 }
 
 /* ================= GAME ================= */
-
 let pontos = parseInt(localStorage.getItem("pontos")) || 0
 let streak = parseInt(localStorage.getItem("streak")) || 0
 
 function estudei(){
-pontos+=10
-streak++
-
-localStorage.setItem("pontos",pontos)
-localStorage.setItem("streak",streak)
-
-atualizar()
+  pontos+=10
+  streak++
+  localStorage.setItem("pontos",pontos)
+  localStorage.setItem("streak",streak)
+  atualizar()
 }
 
 function atualizar(){
-document.getElementById("pontos").innerText=pontos
-document.getElementById("streak").innerText=streak
+  document.getElementById("pontos").innerText=pontos
+  document.getElementById("streak").innerText=streak
 }
 
-mostrar()
-atualizar()
+/* ================= CALCULADORA ================= */
+let calcDisplay = document.getElementById("display")
+let calcValue = ""
 
+function addCalc(val){
+  calcValue += val
+  calcDisplay.value = calcValue
+}
+
+function calcular(){
+  try{
+    calcValue = eval(calcValue).toString()
+    calcDisplay.value = calcValue
+  } catch {
+    calcDisplay.value = "Erro"
+    calcValue = ""
+  }
+}
+
+function limpar(){
+  calcValue = ""
+  calcDisplay.value = ""
+}
+
+/* ================= INICIALIZAÇÃO ================= */
+mostrar()
+mostrarProvas()
+mostrarTarefas()
+atualizarNotas()
+atualizar()
 </script>
 
 </body>
