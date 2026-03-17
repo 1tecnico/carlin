@@ -1,375 +1,177 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mochila Escolar IA</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Mochila PRO MAX</title>
 
 <style>
-
-body{
-margin:0;
-font-family:Segoe UI;
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
-}
-
-header{
-text-align:center;
-padding:20px;
-font-size:26px;
-}
-
-nav{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:8px;
-padding:10px;
-}
-
-nav button{
-padding:10px;
-border:none;
-border-radius:10px;
-background:white;
-color:#1e3c72;
-font-weight:bold;
-cursor:pointer;
-}
-
-section{
-display:none;
-max-width:900px;
-margin:auto;
-background:white;
-color:black;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-}
-
-.active{
-display:block;
-}
-
-input,textarea{
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:1px solid #ccc;
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:8px;
-background:#2a5298;
-color:white;
-cursor:pointer;
-}
-
-ul{
-list-style:none;
-padding:0;
-}
-
-li{
-background:#f1f3f7;
-margin:5px 0;
-padding:10px;
-border-radius:8px;
-display:flex;
-justify-content:space-between;
-}
-
-.card{
-background:#f4f6f9;
-padding:15px;
-border-radius:10px;
-margin-top:10px;
-}
-
-.calc{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:5px;
-max-width:260px;
-margin:auto;
-}
-
+body{margin:0;font-family:Segoe UI;background:#0f172a;color:white;}
+header{padding:15px;text-align:center;font-size:22px;background:#1e293b;}
+nav{display:flex;justify-content:space-around;background:#1e293b;padding:10px;position:fixed;bottom:0;width:100%;}
+nav button{background:none;border:none;color:white;font-size:14px;}
+section{display:none;padding:15px;margin-bottom:60px;}
+.active{display:block;}
+.card{background:#1e293b;padding:15px;border-radius:12px;margin-top:10px;}
+input,textarea{width:100%;margin:5px 0;padding:10px;border-radius:8px;border:none;}
+button{padding:10px;border:none;border-radius:8px;background:#3b82f6;color:white;margin:3px;}
+.materia{padding:10px;background:#334155;border-radius:10px;margin:5px 0;cursor:pointer;}
 </style>
-
 </head>
 
 <body>
 
-<header>
-🎒 Mochila Escolar Inteligente
-</header>
+<header>📱 Mochila PRO MAX</header>
 
-<nav>
-<button onclick="abrir('tarefas')">📚 Tarefas</button>
-<button onclick="abrir('provas')">📅 Provas</button>
-<button onclick="abrir('notas')">📊 Notas</button>
-<button onclick="abrir('estudo')">🧠 Estudo</button>
-<button onclick="abrir('calculadora')">🧮 Calculadora</button>
-<button onclick="abrir('caderno')">📓 Caderno</button>
-</nav>
-
-<section id="tarefas" class="active">
-<h2>Tarefas</h2>
-<input id="tarefaInput" placeholder="Nova tarefa">
-<button onclick="addTarefa()">Adicionar</button>
-<ul id="listaTarefas"></ul>
-</section>
-
-<section id="provas">
-<h2>Calendário de Provas</h2>
-<input type="date" id="dataProva">
-<input id="materiaProva" placeholder="Matéria">
-<button onclick="addProva()">Adicionar</button>
-<ul id="listaProvas"></ul>
-</section>
-
-<section id="notas">
-<h2>Gráfico de Notas</h2>
-<input id="materiaNota" placeholder="Matéria">
-<input id="valorNota" type="number" placeholder="Nota">
-<button onclick="addNota()">Adicionar</button>
-<canvas id="grafico"></canvas>
-</section>
-
-<section id="estudo">
-<h2>Modo Estudo</h2>
-<button onclick="gerarEstudo()">Gerar plano</button>
-<div id="planoEstudo"></div>
-</section>
-
-<section id="calculadora">
-<h2>Calculadora</h2>
-
-<input id="display" readonly style="width:260px;font-size:20px;text-align:right">
-
-<div class="calc">
-
-<button onclick="addCalc('7')">7</button>
-<button onclick="addCalc('8')">8</button>
-<button onclick="addCalc('9')">9</button>
-<button onclick="addCalc('/')">÷</button>
-
-<button onclick="addCalc('4')">4</button>
-<button onclick="addCalc('5')">5</button>
-<button onclick="addCalc('6')">6</button>
-<button onclick="addCalc('*')">×</button>
-
-<button onclick="addCalc('1')">1</button>
-<button onclick="addCalc('2')">2</button>
-<button onclick="addCalc('3')">3</button>
-<button onclick="addCalc('-')">−</button>
-
-<button onclick="addCalc('0')">0</button>
-<button onclick="addCalc('.')">.</button>
-<button onclick="calcular()">=</button>
-<button onclick="addCalc('+')">+</button>
-
-<button onclick="limparCalc()" style="grid-column:span 4;background:red">Limpar</button>
-
-</div>
+<section id="materias" class="active">
+<h2>📚 Matérias</h2>
+<input id="novaMateria" placeholder="Nova matéria">
+<button onclick="addMateria()">Adicionar</button>
+<div id="listaMaterias"></div>
 </section>
 
 <section id="caderno">
-<h2>📓 Caderno Digital</h2>
-
-<input id="materiaNotaCaderno" placeholder="Matéria"><br>
-<input id="tituloNota" placeholder="Título"><br>
-<textarea id="conteudoNota" rows="5"></textarea><br>
-
+<h2 id="tituloMateria">📓 Caderno</h2>
+<input id="tituloNota" placeholder="Título">
+<textarea id="conteudoNota"></textarea>
 <button onclick="salvarNota()">Salvar</button>
-
+<button onclick="resumoIA()">Resumo IA</button>
+<button onclick="perguntaIA()">Pergunta IA</button>
 <div id="listaNotas"></div>
 </section>
 
+<section id="calendario">
+<h2>⏰ Calendário</h2>
+<input type="date" id="dataProva">
+<input id="descProva" placeholder="Descrição">
+<button onclick="addEvento()">Salvar</button>
+<div id="listaEventos"></div>
+</section>
+
+<section id="game">
+<h2>🎮 Progresso</h2>
+<p>Pontos: <span id="pontos">0</span></p>
+<p>Streak: <span id="streak">0</span></p>
+<button onclick="estudei()">Estudei hoje</button>
+</section>
+
+<nav>
+<button onclick="abrir('materias')">📚</button>
+<button onclick="abrir('caderno')">📓</button>
+<button onclick="abrir('calendario')">⏰</button>
+<button onclick="abrir('game')">🎮</button>
+</nav>
+
 <script>
 
-/* ABAS */
 function abrir(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
 }
 
-/* TAREFAS */
-let tarefas=[]
+/* MATÉRIAS */
+let materias = JSON.parse(localStorage.getItem("materias")) || []
+let materiaAtual = ""
 
-function addTarefa(){
-let texto=document.getElementById("tarefaInput").value
-if(texto==="")return
-
-tarefas.push(texto)
-document.getElementById("tarefaInput").value=""
-mostrarTarefas()
+function addMateria(){
+let nome=document.getElementById("novaMateria").value
+if(!nome)return
+materias.push(nome)
+localStorage.setItem("materias",JSON.stringify(materias))
+mostrarMaterias()
 }
 
-function mostrarTarefas(){
-let ul=document.getElementById("listaTarefas")
-ul.innerHTML=""
-
-tarefas.forEach((t,i)=>{
-let li=document.createElement("li")
-li.innerHTML=t+" <button onclick='removerTarefa("+i+")'>❌</button>"
-ul.appendChild(li)
-})
-}
-
-function removerTarefa(i){
-tarefas.splice(i,1)
-mostrarTarefas()
-}
-
-/* PROVAS */
-let provas=[]
-
-function addProva(){
-let data=document.getElementById("dataProva").value
-let materia=document.getElementById("materiaProva").value
-
-if(data==""||materia=="")return
-
-provas.push({data,materia})
-mostrarProvas()
-}
-
-function mostrarProvas(){
-let ul=document.getElementById("listaProvas")
-ul.innerHTML=""
-
-provas.forEach(p=>{
-let li=document.createElement("li")
-li.innerText=p.materia+" - "+p.data
-ul.appendChild(li)
-})
-}
-
-/* NOTAS */
-let materias=[]
-let notas=[]
-
-let chart=new Chart(document.getElementById("grafico"),{
-type:"bar",
-data:{labels:materias,datasets:[{label:"Notas",data:notas}]}
-})
-
-function addNota(){
-let m=document.getElementById("materiaNota").value
-let n=document.getElementById("valorNota").value
-
-materias.push(m)
-notas.push(n)
-chart.update()
-}
-
-/* ESTUDO */
-function gerarEstudo(){
-let lista=["Matemática","Português","História"]
-
-let div=document.getElementById("planoEstudo")
+function mostrarMaterias(){
+let div=document.getElementById("listaMaterias")
 div.innerHTML=""
-
-lista.forEach(m=>{
-let c=document.createElement("div")
-c.className="card"
-c.innerText="Estudar "+m
-div.appendChild(c)
+materias.forEach(m=>{
+div.innerHTML+=`<div class="materia" onclick="abrirMateria('${m}')">${m}</div>`
 })
 }
 
-/* CALCULADORA */
-function addCalc(valor){
-let display=document.getElementById("display")
-display.value+=valor
+function abrirMateria(m){
+materiaAtual=m
+document.getElementById("tituloMateria").innerText="📓 "+m
+abrir("caderno")
+mostrarNotas()
 }
 
-function calcular(){
-let display=document.getElementById("display")
-try{
-display.value=eval(display.value)
-}catch{
-display.value="Erro"
-}
-}
+mostrarMaterias()
 
-function limparCalc(){
-document.getElementById("display").value=""
-}
-
-/* CADERNO COM EDITAR */
-let notasCaderno=[]
+/* CADERNO */
+let notas = JSON.parse(localStorage.getItem("notas")) || []
 
 function salvarNota(){
-let m=document.getElementById("materiaNotaCaderno").value
 let t=document.getElementById("tituloNota").value
 let c=document.getElementById("conteudoNota").value
-
-if(m==""||t==""||c=="")return
-
-notasCaderno.push({m,t,c})
-
-document.getElementById("materiaNotaCaderno").value=""
-document.getElementById("tituloNota").value=""
-document.getElementById("conteudoNota").value=""
-
+if(!t||!c||!materiaAtual)return
+notas.push({m:materiaAtual,t,c})
+localStorage.setItem("notas",JSON.stringify(notas))
 mostrarNotas()
 }
 
 function mostrarNotas(){
 let div=document.getElementById("listaNotas")
 div.innerHTML=""
-
-notasCaderno.forEach((n,i)=>{
-
-let card=document.createElement("div")
-card.className="card"
-
-card.innerHTML=
-"<b>"+n.m+"</b><br>"+
-n.t+"<br>"+
-n.c+
-"<br><button onclick='editarNota("+i+")'>✏️ Editar</button> "+
-"<button onclick='removerNota("+i+")'>❌ Excluir</button>"
-
-div.appendChild(card)
-
+notas.filter(n=>n.m==materiaAtual).forEach(n=>{
+div.innerHTML+=`<div class="card"><b>${n.t}</b><br>${n.c}</div>`
 })
 }
 
-function editarNota(i){
-
-let nota = notasCaderno[i]
-
-let novaMateria = prompt("Editar matéria:", nota.m)
-let novoTitulo = prompt("Editar título:", nota.t)
-let novoConteudo = prompt("Editar conteúdo:", nota.c)
-
-if(novaMateria && novoTitulo && novoConteudo){
-
-notasCaderno[i] = {
-m: novaMateria,
-t: novoTitulo,
-c: novoConteudo
+/* IA */
+function resumoIA(){
+let txt=document.getElementById("conteudoNota").value
+alert("Resumo:\n"+txt.split(".").slice(0,3).join("."))
 }
 
-mostrarNotas()
+function perguntaIA(){
+let txt=document.getElementById("conteudoNota").value.split(" ")
+alert("Pergunta: Explique "+txt.slice(0,6).join(" "))
+}
 
-}
+/* CALENDÁRIO */
+let eventos = JSON.parse(localStorage.getItem("eventos")) || []
+
+function addEvento(){
+let data=document.getElementById("dataProva").value
+let desc=document.getElementById("descProva").value
+if(!data||!desc)return
+eventos.push({data,desc})
+localStorage.setItem("eventos",JSON.stringify(eventos))
+mostrarEventos()
 }
 
-function removerNota(i){
-notasCaderno.splice(i,1)
-mostrarNotas()
+function mostrarEventos(){
+let div=document.getElementById("listaEventos")
+div.innerHTML=""
+let hoje = new Date().toISOString().split("T")[0]
+
+eventos.forEach(e=>{
+let alerta = (e.data === hoje) ? "⚠️ HOJE" : ""
+div.innerHTML+=`<div class="card">${e.desc} - ${e.data} ${alerta}</div>`
+})
 }
+
+mostrarEventos()
+
+/* GAME */
+let pontos = parseInt(localStorage.getItem("pontos"))||0
+let streak = parseInt(localStorage.getItem("streak"))||0
+
+function estudei(){
+pontos+=10
+streak++
+localStorage.setItem("pontos",pontos)
+localStorage.setItem("streak",streak)
+atualizar()
+}
+
+function atualizar(){
+document.getElementById("pontos").innerText=pontos
+document.getElementById("streak").innerText=streak
+}
+
+atualizar()
 
 </script>
 
