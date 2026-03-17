@@ -3,166 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mochila PRO MAX</title>
+<title>Mochila Escolar PRO</title>
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#0f172a;color:white;}
-header{padding:15px;text-align:center;font-size:22px;background:#1e293b;}
-nav{display:flex;justify-content:space-around;background:#1e293b;padding:10px;position:fixed;bottom:0;width:100%;}
-nav button{background:none;border:none;color:white;font-size:14px;}
-section{display:none;padding:15px;margin-bottom:60px;}
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+}
+
+header{
+text-align:center;
+padding:20px;
+font-size:26px;
+}
+
+nav{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:8px;
+padding:10px;
+}
+
+nav button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:white;
+color:#1e3c72;
+font-weight:bold;
+cursor:pointer;
+}
+
+section{
+display:none;
+max-width:900px;
+margin:auto;
+background:white;
+color:black;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
 .active{display:block;}
-.card{background:#1e293b;padding:15px;border-radius:12px;margin-top:10px;}
-input,textarea{width:100%;margin:5px 0;padding:10px;border-radius:8px;border:none;}
-button{padding:10px;border:none;border-radius:8px;background:#3b82f6;color:white;margin:3px;}
-.materia{padding:10px;background:#334155;border-radius:10px;margin:5px 0;cursor:pointer;}
+
+input,textarea{
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:1px solid #ccc;
+width:90%;
+}
+
+button{
+padding:10px;
+border:none;
+border-radius:8px;
+background:#2a5298;
+color:white;
+cursor:pointer;
+margin:3px;
+}
+
+.card{
+background:#f4f6f9;
+padding:10px;
+border-radius:10px;
+margin-top:10px;
+}
 </style>
 </head>
 
 <body>
 
-<header>📱 Mochila PRO MAX</header>
+<header>🎒 Mochila Escolar PRO</header>
 
-<section id="materias" class="active">
-<h2>📚 Matérias</h2>
-<input id="novaMateria" placeholder="Nova matéria">
-<button onclick="addMateria()">Adicionar</button>
-<div id="listaMaterias"></div>
-</section>
+<nav>
+<button onclick="abrir('caderno')">📓 Caderno</button>
+<button onclick="abrir('notas')">📊 Notas</button>
+<button onclick="abrir('provas')">📅 Provas</button>
+<button onclick="abrir('game')">🎮 Game</button>
+</nav>
 
-<section id="caderno">
-<h2 id="tituloMateria">📓 Caderno</h2>
-<input id="tituloNota" placeholder="Título">
-<textarea id="conteudoNota"></textarea>
+<!-- CADERNO -->
+<section id="caderno" class="active">
+<h2>Caderno Inteligente</h2>
+
+<input id="materia" placeholder="Matéria">
+<input id="titulo" placeholder="Título">
+<textarea id="conteudo" rows="4"></textarea>
+
+<br>
 <button onclick="salvarNota()">Salvar</button>
-<button onclick="resumoIA()">Resumo IA</button>
-<button onclick="perguntaIA()">Pergunta IA</button>
-<div id="listaNotas"></div>
+<button onclick="gerarResumo()">Resumo IA</button>
+<button onclick="gerarPergunta()">Perguntas IA</button>
+<button onclick="dica()">Dica</button>
+
+<br><br>
+<input id="buscar" onkeyup="buscar()" placeholder="Pesquisar...">
+
+<div id="lista"></div>
 </section>
 
-<section id="calendario">
-<h2>⏰ Calendário</h2>
-<input type="date" id="dataProva">
-<input id="descProva" placeholder="Descrição">
-<button onclick="addEvento()">Salvar</button>
-<div id="listaEventos"></div>
+<!-- NOTAS -->
+<section id="notas">
+<h2>Notas</h2>
+
+<input id="notaInput" type="number" placeholder="Nota">
+<button onclick="addNota()">Adicionar</button>
+
+<p>Média: <span id="media">0</span></p>
 </section>
 
+<!-- PROVAS -->
+<section id="provas">
+<h2>Provas</h2>
+
+<input type="date" id="data">
+<input id="materiaProva" placeholder="Matéria">
+<button onclick="addProva()">Salvar</button>
+
+<div id="listaProvas"></div>
+</section>
+
+<!-- GAME -->
 <section id="game">
-<h2>🎮 Progresso</h2>
+<h2>Gamificação</h2>
+
 <p>Pontos: <span id="pontos">0</span></p>
 <p>Streak: <span id="streak">0</span></p>
+
 <button onclick="estudei()">Estudei hoje</button>
 </section>
 
-<nav>
-<button onclick="abrir('materias')">📚</button>
-<button onclick="abrir('caderno')">📓</button>
-<button onclick="abrir('calendario')">⏰</button>
-<button onclick="abrir('game')">🎮</button>
-</nav>
-
 <script>
 
+/* ABAS */
 function abrir(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
 }
 
-/* MATÉRIAS */
-let materias = JSON.parse(localStorage.getItem("materias")) || []
-let materiaAtual = ""
+/* ================= CADERNO ================= */
 
-function addMateria(){
-let nome=document.getElementById("novaMateria").value
-if(!nome)return
-materias.push(nome)
-localStorage.setItem("materias",JSON.stringify(materias))
-mostrarMaterias()
-}
-
-function mostrarMaterias(){
-let div=document.getElementById("listaMaterias")
-div.innerHTML=""
-materias.forEach(m=>{
-div.innerHTML+=`<div class="materia" onclick="abrirMateria('${m}')">${m}</div>`
-})
-}
-
-function abrirMateria(m){
-materiaAtual=m
-document.getElementById("tituloMateria").innerText="📓 "+m
-abrir("caderno")
-mostrarNotas()
-}
-
-mostrarMaterias()
-
-/* CADERNO */
 let notas = JSON.parse(localStorage.getItem("notas")) || []
 
 function salvarNota(){
-let t=document.getElementById("tituloNota").value
-let c=document.getElementById("conteudoNota").value
-if(!t||!c||!materiaAtual)return
-notas.push({m:materiaAtual,t,c})
+let m=materia.value
+let t=titulo.value
+let c=conteudo.value
+
+if(!m||!t||!c)return
+
+notas.push({m,t,c,data:new Date().toLocaleDateString()})
+
 localStorage.setItem("notas",JSON.stringify(notas))
-mostrarNotas()
+
+mostrar()
 }
 
-function mostrarNotas(){
-let div=document.getElementById("listaNotas")
-div.innerHTML=""
-notas.filter(n=>n.m==materiaAtual).forEach(n=>{
-div.innerHTML+=`<div class="card"><b>${n.t}</b><br>${n.c}</div>`
+function mostrar(){
+lista.innerHTML=""
+
+notas.forEach((n,i)=>{
+lista.innerHTML+=`
+<div class="card">
+<b>${n.m}</b> (${n.data})<br>
+${n.t}<br>${n.c}
+<br>
+<button onclick="editar(${i})">✏️</button>
+<button onclick="excluir(${i})">❌</button>
+</div>`
 })
 }
 
-/* IA */
-function resumoIA(){
-let txt=document.getElementById("conteudoNota").value
-alert("Resumo:\n"+txt.split(".").slice(0,3).join("."))
+function editar(i){
+let n=notas[i]
+
+let m=prompt("Matéria:",n.m)
+let t=prompt("Título:",n.t)
+let c=prompt("Conteúdo:",n.c)
+
+if(m&&t&&c){
+notas[i]={...n,m,t,c}
+localStorage.setItem("notas",JSON.stringify(notas))
+mostrar()
+}
 }
 
-function perguntaIA(){
-let txt=document.getElementById("conteudoNota").value.split(" ")
-alert("Pergunta: Explique "+txt.slice(0,6).join(" "))
+function excluir(i){
+notas.splice(i,1)
+localStorage.setItem("notas",JSON.stringify(notas))
+mostrar()
 }
 
-/* CALENDÁRIO */
-let eventos = JSON.parse(localStorage.getItem("eventos")) || []
+function buscar(){
+let termo=buscar.value.toLowerCase()
 
-function addEvento(){
-let data=document.getElementById("dataProva").value
-let desc=document.getElementById("descProva").value
-if(!data||!desc)return
-eventos.push({data,desc})
-localStorage.setItem("eventos",JSON.stringify(eventos))
-mostrarEventos()
-}
+lista.innerHTML=""
 
-function mostrarEventos(){
-let div=document.getElementById("listaEventos")
-div.innerHTML=""
-let hoje = new Date().toISOString().split("T")[0]
-
-eventos.forEach(e=>{
-let alerta = (e.data === hoje) ? "⚠️ HOJE" : ""
-div.innerHTML+=`<div class="card">${e.desc} - ${e.data} ${alerta}</div>`
+notas.filter(n=>n.m.toLowerCase().includes(termo)||n.t.toLowerCase().includes(termo))
+.forEach(n=>{
+lista.innerHTML+=`<div class="card"><b>${n.m}</b><br>${n.t}<br>${n.c}</div>`
 })
 }
 
-mostrarEventos()
+/* ================= IA ================= */
 
-/* GAME */
-let pontos = parseInt(localStorage.getItem("pontos"))||0
-let streak = parseInt(localStorage.getItem("streak"))||0
+function gerarResumo(){
+let txt=conteudo.value
+alert("Resumo: "+txt.split(".").slice(0,2).join("."))
+}
+
+function gerarPergunta(){
+let txt=conteudo.value
+let p=txt.split(" ").slice(0,5).join(" ")
+alert("Pergunta: Explique "+p)
+}
+
+function dica(){
+alert("💡 Revise em 24h e depois em 7 dias.")
+}
+
+/* ================= NOTAS ================= */
+
+let listaNotas = JSON.parse(localStorage.getItem("notasNum")) || []
+
+function addNota(){
+let n=parseFloat(notaInput.value)
+if(!n)return
+
+listaNotas.push(n)
+
+localStorage.setItem("notasNum",JSON.stringify(listaNotas))
+
+let media = listaNotas.reduce((a,b)=>a+b,0)/listaNotas.length
+document.getElementById("media").innerText=media.toFixed(2)
+}
+
+/* ================= PROVAS ================= */
+
+let provas = JSON.parse(localStorage.getItem("provas")) || []
+
+function addProva(){
+provas.push({data:data.value,materia:materiaProva.value})
+localStorage.setItem("provas",JSON.stringify(provas))
+alert("Salvo!")
+}
+
+/* ================= GAME ================= */
+
+let pontos = parseInt(localStorage.getItem("pontos")) || 0
+let streak = parseInt(localStorage.getItem("streak")) || 0
 
 function estudei(){
 pontos+=10
 streak++
+
 localStorage.setItem("pontos",pontos)
 localStorage.setItem("streak",streak)
+
 atualizar()
 }
 
@@ -171,6 +274,7 @@ document.getElementById("pontos").innerText=pontos
 document.getElementById("streak").innerText=streak
 }
 
+mostrar()
 atualizar()
 
 </script>
