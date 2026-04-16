@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Direitos Humanos na Escola</title>
 
 <style>
@@ -13,7 +14,7 @@ font-family:Arial, Helvetica, sans-serif;
 overflow-x:hidden;
 }
 
-/* FUNDO ESCOLAR */
+/* FUNDO ESCOLAR ANIMADO */
 body::before{
 content:"";
 position:fixed;
@@ -45,31 +46,16 @@ backdrop-filter:blur(10px);
 }
 
 .logo{
-width:55px;
+width:50px;
 border-radius:50%;
-animation:logo 3s infinite alternate;
-}
-
-@keyframes logo{
-from{transform:rotate(-5deg)}
-to{transform:rotate(5deg)}
 }
 
 /* MENU */
 nav{
-background:rgba(14,165,233,0.95);
+background:rgba(14,165,233,0.9);
 padding:10px;
 text-align:center;
-transform:translateY(-100%);
-opacity:0;
-animation:menuAbrir 0.8s ease forwards;
-}
-
-@keyframes menuAbrir{
-to{
-transform:translateY(0);
-opacity:1;
-}
+backdrop-filter:blur(10px);
 }
 
 nav button{
@@ -83,8 +69,8 @@ transition:0.3s;
 }
 
 nav button:hover{
-transform:translateY(-3px) scale(1.05);
-box-shadow:0 6px 12px rgba(0,0,0,0.2);
+transform:translateY(-2px);
+box-shadow:0 5px 10px rgba(0,0,0,0.2);
 }
 
 /* SEÇÕES */
@@ -114,17 +100,19 @@ transform:translateY(0);
 /* CARD */
 .card{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* IMAGEM */
 img{
 width:100%;
 border-radius:10px;
 margin:15px 0;
 }
 
+/* INPUT */
 input, textarea{
 width:100%;
 padding:10px;
@@ -133,6 +121,7 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
+/* BOTÕES */
 button{
 background:#1e3a8a;
 color:white;
@@ -148,6 +137,7 @@ button:hover{
 transform:scale(1.05);
 }
 
+/* COMENTARIOS */
 .comentario{
 background:#e2e8f0;
 padding:10px;
@@ -191,7 +181,7 @@ color:#1e3a8a;
 <img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
 <div>
 <h2>Direitos Humanos na Escola</h2>
-<small>Relação entre professores, alunos e profissionais</small>
+<small>Respeito entre professores, alunos e profissionais</small>
 </div>
 </header>
 
@@ -204,100 +194,46 @@ color:#1e3a8a;
 <button onclick="voltar()">Voltar</button>
 </nav>
 
-<!-- INICIO -->
 <div id="inicio" class="section active">
 <div class="card">
-<h2>Direitos Humanos na Escola</h2>
-
+<h2>Bem-vindo</h2>
 <p>
-Os direitos humanos na escola são fundamentais para garantir um ambiente de
-respeito, igualdade e convivência saudável entre professores, alunos e outros
-profissionais. A escola é um espaço onde se aprende não apenas conteúdos,
-mas também valores importantes para a vida em sociedade.
+Este site apresenta a importância dos direitos humanos na escola e
+a relação entre professores, alunos e outros profissionais.
 </p>
-
-<p>
-Quando existe respeito entre todos, o ambiente escolar se torna mais acolhedor
-e seguro. Professores conseguem ensinar melhor, alunos aprendem com mais
-facilidade e os demais profissionais contribuem para a organização e o
-bem-estar coletivo.
-</p>
-
-<p>
-A prática dos direitos humanos envolve ouvir opiniões, respeitar diferenças,
-combater o bullying e incentivar o diálogo. Essas atitudes ajudam a formar
-cidadãos conscientes e preparados para viver em sociedade.
-</p>
-
 </div>
 </div>
 
-<!-- TEMA -->
 <div id="tema" class="section">
 <div class="card">
-<h2>Importância dos Direitos Humanos</h2>
-
+<h2>Direitos Humanos</h2>
 <img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
-
 <p>
-Os direitos humanos garantem que todos dentro da escola sejam tratados com
-respeito. Professores, alunos e funcionários devem colaborar para criar
-um ambiente harmonioso e acolhedor.
+Os direitos humanos garantem respeito, igualdade e convivência saudável
+entre todos dentro da escola.
 </p>
-
-<p>
-Promover os direitos humanos significa valorizar a diversidade, respeitar
-opiniões diferentes e incentivar a convivência pacífica entre todos.
-</p>
-
 </div>
 </div>
 
-<!-- PROFESSORES -->
 <div id="professores" class="section">
 <div class="card">
-<h2>Papel dos Professores</h2>
-
+<h2>Professores</h2>
 <p>
-Os professores têm papel essencial na promoção dos direitos humanos.
-Eles orientam, ensinam valores e incentivam o respeito entre os alunos.
+Os professores devem promover respeito, diálogo e igualdade na sala de aula.
 </p>
-
-<ul>
-<li>Promover respeito</li>
-<li>Combater bullying</li>
-<li>Incentivar diálogo</li>
-<li>Respeitar diferenças</li>
-<li>Garantir igualdade</li>
-<li>Criar ambiente acolhedor</li>
-</ul>
-
 </div>
 </div>
 
-<!-- ALUNOS -->
 <div id="alunos" class="section">
 <div class="card">
-<h2>Papel dos Alunos</h2>
-
+<h2>Alunos</h2>
 <p>
-Os alunos devem respeitar colegas, professores e funcionários,
-contribuindo para um ambiente escolar saudável.
+Os alunos devem respeitar colegas, professores e contribuir para
+um ambiente escolar saudável.
 </p>
-
-<ul>
-<li>Respeitar professores</li>
-<li>Respeitar colegas</li>
-<li>Evitar bullying</li>
-<li>Ajudar colegas</li>
-<li>Valorizar diferenças</li>
-<li>Seguir regras</li>
-</ul>
-
 </div>
 </div>
 
-<!-- COMENTARIOS -->
 <div id="comentarios" class="section">
 <div class="card">
 <h2>Comentários</h2>
@@ -367,8 +303,8 @@ comentarios.push({nome,texto});
 salvar();
 render();
 
-document.getElementById("nome").value="";
-document.getElementById("texto").value="";
+nome.value="";
+texto.value="";
 }
 
 function excluir(i){
