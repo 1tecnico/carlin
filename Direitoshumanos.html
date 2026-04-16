@@ -8,151 +8,70 @@
 <style>
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-overflow-x:hidden;
-}
-
-/* FUNDO ESCOLAR ANIMADO */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+font-family:Arial;
 background:linear-gradient(120deg,#60a5fa,#38bdf8,#22c55e);
 background-size:400% 400%;
-animation:fundo 15s ease infinite;
-z-index:-1;
+animation:fundo 10s infinite;
 }
 
 @keyframes fundo{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+0%{background-position:0%}
+50%{background-position:100%}
+100%{background-position:0%}
 }
 
-/* HEADER */
 header{
-background:rgba(30,58,138,0.9);
+background:#1e3a8a;
 color:white;
 padding:15px;
 display:flex;
-align-items:center;
-gap:15px;
+gap:10px;
 }
 
 .logo{
-width:55px;
+width:50px;
+height:50px;
+background:white;
 border-radius:50%;
-animation:logo 3s infinite alternate;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-@keyframes logo{
-from{transform:rotate(-5deg)}
-to{transform:rotate(5deg)}
-}
-
-/* MENU ANIMADO */
 nav{
-background:rgba(14,165,233,0.95);
+background:#0ea5e9;
 padding:10px;
 text-align:center;
-transform:translateY(-100%);
-opacity:0;
-animation:menuAbrir 0.8s ease forwards;
-}
-
-@keyframes menuAbrir{
-to{
-transform:translateY(0);
-opacity:1;
-}
 }
 
 nav button{
 margin:5px;
-padding:10px 15px;
+padding:10px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-font-weight:bold;
-transition:0.3s;
 }
 
-nav button:hover{
-transform:translateY(-3px);
-}
-
-/* SEÇÕES */
 .section{
 display:none;
-padding:30px;
-max-width:900px;
-margin:auto;
-animation:fade 0.5s ease;
+padding:20px;
 }
 
 .active{
 display:block;
 }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
-}
-
 .card{
 background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-img{
-width:100%;
+padding:20px;
 border-radius:10px;
-margin:15px 0;
-}
-
-input, textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-border:1px solid #ccc;
-}
-
-button{
-background:#1e3a8a;
-color:white;
-padding:10px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-margin-top:10px;
 }
 
 .comentario{
-background:#e2e8f0;
+background:#eee;
 padding:10px;
+margin-top:10px;
 border-radius:8px;
-margin-top:10px;
-}
-
-.nome{
-font-weight:bold;
-color:#1e3a8a;
-}
-
-.excluir{
-background:#ef4444;
-}
-
-.contador{
-margin-top:10px;
-font-weight:bold;
-color:#1e3a8a;
 }
 </style>
 </head>
@@ -160,96 +79,60 @@ color:#1e3a8a;
 <body>
 
 <header>
-<img class="logo" src="https://cdn-icons-png.flaticon.com/512/201/201818.png">
-<div>
+<div class="logo">🏫</div>
 <h2>Direitos Humanos na Escola</h2>
-<small>Relação entre professores, alunos e profissionais</small>
-</div>
 </header>
 
 <nav>
 <button onclick="mostrar('inicio')">Início</button>
-<button onclick="mostrar('tema')">Tema</button>
-<button onclick="mostrar('professores')">Professores</button>
+<button onclick="mostrar('prof')">Professores</button>
 <button onclick="mostrar('alunos')">Alunos</button>
-<button onclick="mostrar('comentarios')">Comentários</button>
-<button onclick="voltar()">Voltar</button>
+<button onclick="mostrar('coment')">Comentários</button>
+<button onclick="history.back()">Voltar</button>
 </nav>
 
 <div id="inicio" class="section active">
 <div class="card">
-<h2>Direitos Humanos na Escola</h2>
-
+<h2>Direitos Humanos</h2>
 <p>
 Os direitos humanos na escola garantem respeito entre professores,
-alunos e outros profissionais. A escola é um espaço de aprendizagem
-e também de convivência social.
+alunos e profissionais. A convivência baseada no diálogo melhora
+o ambiente escolar.
 </p>
-
-<p>
-Quando há respeito e diálogo, o ambiente escolar se torna mais
-acolhedor, seguro e produtivo para todos.
-</p>
-
 </div>
 </div>
 
-<div id="tema" class="section">
+<div id="prof" class="section">
 <div class="card">
-<h2>Importância</h2>
-
-<img src="https://cdn-icons-png.flaticon.com/512/2436/2436636.png">
-
-<p>
-Promover os direitos humanos significa combater o bullying,
-valorizar diferenças e incentivar a cooperação.
-</p>
-
-</div>
-</div>
-
-<div id="professores" class="section">
-<div class="card">
-<h2>Papel dos Professores</h2>
-
+<h2>Professores</h2>
 <ul>
 <li>Promover respeito</li>
 <li>Combater bullying</li>
 <li>Incentivar diálogo</li>
-<li>Respeitar diferenças</li>
-<li>Criar ambiente acolhedor</li>
 </ul>
-
 </div>
 </div>
 
 <div id="alunos" class="section">
 <div class="card">
-<h2>Papel dos Alunos</h2>
-
+<h2>Alunos</h2>
 <ul>
-<li>Respeitar professores</li>
 <li>Respeitar colegas</li>
+<li>Respeitar professores</li>
 <li>Evitar bullying</li>
-<li>Ajudar colegas</li>
-<li>Valorizar diferenças</li>
 </ul>
-
 </div>
 </div>
 
-<div id="comentarios" class="section">
+<div id="coment" class="section">
 <div class="card">
-<h2>Comentários</h2>
 
-<input id="nome" placeholder="Seu nome">
-<textarea id="texto" placeholder="Seu comentário"></textarea>
+<input id="nome" placeholder="Nome">
+<textarea id="texto"></textarea>
 
 <button onclick="comentar()">Enviar</button>
 
-<div class="contador">
-Total: <span id="contador">0</span>
-</div>
+<p>Total: <span id="contador">0</span></p>
 
 <div id="lista"></div>
 
@@ -257,67 +140,54 @@ Total: <span id="contador">0</span>
 </div>
 
 <script>
-function mostrar(secao){
-document.querySelectorAll(".section").forEach(s=>{
-s.classList.remove("active")
-})
-document.getElementById(secao).classList.add("active")
+function mostrar(id){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
+document.getElementById(id).classList.add("active")
 }
 
-function voltar(){
-history.back();
-}
-
-let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+let comentarios = JSON.parse(localStorage.getItem("comentarios"))||[];
 
 function salvar(){
-localStorage.setItem("comentarios", JSON.stringify(comentarios));
+localStorage.setItem("comentarios",JSON.stringify(comentarios))
 }
 
 function render(){
-let lista = document.getElementById("lista");
-lista.innerHTML="";
+let lista=document.getElementById("lista")
+lista.innerHTML=""
 
 comentarios.forEach((c,i)=>{
-let div = document.createElement("div");
-div.className="comentario";
+lista.innerHTML+=`
+<div class="comentario">
+<b>${c.nome}</b>
+<p>${c.texto}</p>
+<button onclick="excluir(${i})">Excluir</button>
+</div>`
+})
 
-div.innerHTML = `
-<div class="nome">${c.nome}</div>
-<div>${c.texto}</div>
-<button class="excluir" onclick="excluir(${i})">Excluir</button>
-`;
-
-lista.appendChild(div);
-});
-
-document.getElementById("contador").innerText = comentarios.length;
+contador.innerText=comentarios.length
 }
 
 function comentar(){
-let nome = document.getElementById("nome").value;
-let texto = document.getElementById("texto").value;
+let nome=document.getElementById("nome").value
+let texto=document.getElementById("texto").value
 
-if(nome=="" || texto==""){
-alert("Preencha tudo");
-return;
-}
+if(!nome||!texto)return
 
-comentarios.push({nome,texto});
-salvar();
-render();
+comentarios.push({nome,texto})
+salvar()
+render()
 
-document.getElementById("nome").value="";
-document.getElementById("texto").value="";
+document.getElementById("nome").value=""
+document.getElementById("texto").value=""
 }
 
 function excluir(i){
-comentarios.splice(i,1);
-salvar();
-render();
+comentarios.splice(i,1)
+salvar()
+render()
 }
 
-render();
+render()
 </script>
 
 </body>
