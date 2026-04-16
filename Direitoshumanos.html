@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Direitos Humanos na Escola</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -42,20 +40,34 @@ padding:15px;
 display:flex;
 align-items:center;
 gap:15px;
-backdrop-filter:blur(10px);
 }
 
 .logo{
-width:50px;
+width:55px;
 border-radius:50%;
+animation:logo 3s infinite alternate;
 }
 
-/* MENU */
+@keyframes logo{
+from{transform:rotate(-5deg)}
+to{transform:rotate(5deg)}
+}
+
+/* MENU ANIMADO */
 nav{
-background:rgba(14,165,233,0.9);
+background:rgba(14,165,233,0.95);
 padding:10px;
 text-align:center;
-backdrop-filter:blur(10px);
+transform:translateY(-100%);
+opacity:0;
+animation:menuAbrir 0.8s ease forwards;
+}
+
+@keyframes menuAbrir{
+to{
+transform:translateY(0);
+opacity:1;
+}
 }
 
 nav button{
@@ -69,8 +81,7 @@ transition:0.3s;
 }
 
 nav button:hover{
-transform:translateY(-2px);
-box-shadow:0 5px 10px rgba(0,0,0,0.2);
+transform:translateY(-3px);
 }
 
 /* SEÇÕES */
@@ -87,32 +98,23 @@ display:block;
 }
 
 @keyframes fade{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
 
-/* CARD */
 .card{
 background:white;
-padding:20px;
+padding:25px;
 border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
-/* IMAGEM */
 img{
 width:100%;
 border-radius:10px;
 margin:15px 0;
 }
 
-/* INPUT */
 input, textarea{
 width:100%;
 padding:10px;
@@ -121,7 +123,6 @@ border-radius:8px;
 border:1px solid #ccc;
 }
 
-/* BOTÕES */
 button{
 background:#1e3a8a;
 color:white;
@@ -130,31 +131,13 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 margin-top:10px;
-transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.05);
-}
-
-/* COMENTARIOS */
 .comentario{
 background:#e2e8f0;
 padding:10px;
 border-radius:8px;
 margin-top:10px;
-animation:coment 0.4s ease;
-}
-
-@keyframes coment{
-from{
-opacity:0;
-transform:translateX(-20px);
-}
-to{
-opacity:1;
-transform:translateX(0);
-}
 }
 
 .nome{
@@ -171,17 +154,16 @@ margin-top:10px;
 font-weight:bold;
 color:#1e3a8a;
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-<img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+<img class="logo" src="https://cdn-icons-png.flaticon.com/512/201/201818.png">
 <div>
 <h2>Direitos Humanos na Escola</h2>
-<small>Respeito entre professores, alunos e profissionais</small>
+<small>Relação entre professores, alunos e profissionais</small>
 </div>
 </header>
 
@@ -196,41 +178,63 @@ color:#1e3a8a;
 
 <div id="inicio" class="section active">
 <div class="card">
-<h2>Bem-vindo</h2>
+<h2>Direitos Humanos na Escola</h2>
+
 <p>
-Este site apresenta a importância dos direitos humanos na escola e
-a relação entre professores, alunos e outros profissionais.
+Os direitos humanos na escola garantem respeito entre professores,
+alunos e outros profissionais. A escola é um espaço de aprendizagem
+e também de convivência social.
 </p>
+
+<p>
+Quando há respeito e diálogo, o ambiente escolar se torna mais
+acolhedor, seguro e produtivo para todos.
+</p>
+
 </div>
 </div>
 
 <div id="tema" class="section">
 <div class="card">
-<h2>Direitos Humanos</h2>
-<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
+<h2>Importância</h2>
+
+<img src="https://cdn-icons-png.flaticon.com/512/2436/2436636.png">
+
 <p>
-Os direitos humanos garantem respeito, igualdade e convivência saudável
-entre todos dentro da escola.
+Promover os direitos humanos significa combater o bullying,
+valorizar diferenças e incentivar a cooperação.
 </p>
+
 </div>
 </div>
 
 <div id="professores" class="section">
 <div class="card">
-<h2>Professores</h2>
-<p>
-Os professores devem promover respeito, diálogo e igualdade na sala de aula.
-</p>
+<h2>Papel dos Professores</h2>
+
+<ul>
+<li>Promover respeito</li>
+<li>Combater bullying</li>
+<li>Incentivar diálogo</li>
+<li>Respeitar diferenças</li>
+<li>Criar ambiente acolhedor</li>
+</ul>
+
 </div>
 </div>
 
 <div id="alunos" class="section">
 <div class="card">
-<h2>Alunos</h2>
-<p>
-Os alunos devem respeitar colegas, professores e contribuir para
-um ambiente escolar saudável.
-</p>
+<h2>Papel dos Alunos</h2>
+
+<ul>
+<li>Respeitar professores</li>
+<li>Respeitar colegas</li>
+<li>Evitar bullying</li>
+<li>Ajudar colegas</li>
+<li>Valorizar diferenças</li>
+</ul>
+
 </div>
 </div>
 
@@ -303,8 +307,8 @@ comentarios.push({nome,texto});
 salvar();
 render();
 
-nome.value="";
-texto.value="";
+document.getElementById("nome").value="";
+document.getElementById("texto").value="";
 }
 
 function excluir(i){
