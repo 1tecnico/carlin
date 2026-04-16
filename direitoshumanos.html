@@ -8,33 +8,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
-body{
-background:#f5f7fb;
-color:#1e293b;
-}
+body{background:#f5f7fb;color:#1e293b;}
 
-header{
-background:linear-gradient(120deg,#2563eb,#7c3aed);
-color:white;
-padding:30px 20px;
+/* CAPA ANIMADA */
+.hero{
+height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
 text-align:center;
+color:white;
+position:relative;
+overflow:hidden;
 }
 
-header h1{
-font-size:32px;
+.hero::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(45deg,#2563eb,#7c3aed,#06b6d4,#2563eb);
+animation:animar 12s linear infinite;
 }
 
-header p{
-opacity:0.9;
-margin-top:8px;
+@keyframes animar{
+0%{ transform:rotate(0deg);} 
+100%{ transform:rotate(360deg);} 
 }
+
+.hero-content{
+position:relative;
+background:rgba(0,0,0,0.45);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+}
+
+.hero h1{font-size:40px;margin-bottom:10px;}
+.hero p{max-width:600px;margin:auto;}
 
 nav{
 background:white;
@@ -48,43 +61,11 @@ top:0;
 z-index:100;
 }
 
-nav a{
-text-decoration:none;
-color:#334155;
-font-weight:500;
-}
+nav a{text-decoration:none;color:#334155;font-weight:600;}
+nav a:hover{color:#2563eb;}
 
-nav a:hover{
-color:#2563eb;
-}
-
-.hero{
-padding:60px 20px;
-text-align:center;
-}
-
-.hero h2{
-font-size:28px;
-margin-bottom:15px;
-}
-
-.hero p{
-max-width:700px;
-margin:auto;
-line-height:1.6;
-}
-
-.section{
-padding:50px 20px;
-max-width:1100px;
-margin:auto;
-}
-
-.section h2{
-text-align:center;
-margin-bottom:30px;
-font-size:26px;
-}
+.section{padding:60px 20px;max-width:1100px;margin:auto;}
+.section h2{text-align:center;margin-bottom:30px;font-size:28px;}
 
 .cards{
 display:grid;
@@ -94,20 +75,17 @@ gap:20px;
 
 .card{
 background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,0.05);
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 transition:0.3s;
 }
 
-.card:hover{
-transform:translateY(-5px);
-}
+.card:hover{transform:translateY(-5px);} 
 
-.card h3{
-margin-bottom:10px;
-color:#2563eb;
-}
+.card img{width:100%;height:180px;object-fit:cover;}
+.card-content{padding:20px;}
+.card h3{margin-bottom:10px;color:#2563eb;}
 
 .lista{
 background:white;
@@ -115,10 +93,6 @@ padding:25px;
 border-radius:12px;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
 line-height:1.8;
-}
-
-.accordion{
-margin-top:20px;
 }
 
 .accordion-item{
@@ -136,10 +110,23 @@ background:#eef2ff;
 font-weight:600;
 }
 
-.accordion-content{
-padding:15px;
-display:none;
+.accordion-content{padding:15px;display:none;}
+
+.galeria{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
 }
+
+.galeria img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:12px;
+transition:0.3s;
+}
+
+.galeria img:hover{transform:scale(1.05);} 
 
 footer{
 background:#0f172a;
@@ -159,184 +146,128 @@ cursor:pointer;
 margin-top:15px;
 }
 
-button:hover{
-background:#1d4ed8;
-}
-
+button:hover{background:#1d4ed8;} 
 </style>
 </head>
 <body>
 
-<header>
+<section class="hero">
+<div class="hero-content">
 <h1>Direitos Humanos na Escola</h1>
-<p>Relação entre professores, alunos e outros profissionais</p>
-</header>
+<p>Relação entre professores, alunos e outros profissionais baseada em respeito, igualdade e convivência saudável.</p>
+</div>
+</section>
 
 <nav>
 <a href="#sobre">Sobre</a>
 <a href="#relacoes">Relações</a>
 <a href="#direitos">Direitos</a>
-<a href="#acoes">Ações</a>
+<a href="#galeria">Imagens</a>
 </nav>
 
-<section class="hero">
-<h2>Respeito, igualdade e convivência escolar</h2>
-<p>
-Os direitos humanos na escola garantem que todos os alunos, professores e profissionais
-sejam respeitados, valorizados e tenham um ambiente seguro para aprender e ensinar.
-Uma boa convivência escolar fortalece o aprendizado e promove cidadania.
-</p>
-</section>
-
 <section class="section" id="sobre">
-<h2>O que são Direitos Humanos na Escola?</h2>
+<h2>Direitos Humanos na Escola</h2>
 <div class="lista">
 <p>
-Os direitos humanos na escola são princípios que garantem respeito, igualdade,
-dignidade e inclusão dentro do ambiente escolar. Eles envolvem a convivência
-entre alunos, professores, diretores, coordenadores e demais funcionários.
-</p>
-
-<p>
-Quando esses direitos são respeitados, a escola se torna um espaço mais justo,
-acolhedor e democrático para todos.
+Os direitos humanos na escola garantem respeito entre alunos, professores e todos os profissionais.
+Uma escola que valoriza esses direitos promove igualdade, inclusão e aprendizagem de qualidade.
 </p>
 </div>
 </section>
 
 <section class="section" id="relacoes">
-<h2>Relação entre os profissionais da escola</h2>
+<h2>Relação entre todos na escola</h2>
 
 <div class="cards">
 
 <div class="card">
+<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7">
+<div class="card-content">
 <h3>Professores e Alunos</h3>
-<p>
-Deve existir respeito mútuo, diálogo, escuta e incentivo à participação dos alunos
-no processo de aprendizagem.
-</p>
+<p>Relação baseada em diálogo, respeito e colaboração.</p>
+</div>
 </div>
 
 <div class="card">
-<h3>Professores e Gestão</h3>
-<p>
-A equipe gestora deve apoiar os professores, garantindo boas condições de trabalho
-e promovendo decisões democráticas.
-</p>
-</div>
-
-<div class="card">
+<img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b">
+<div class="card-content">
 <h3>Alunos entre si</h3>
-<p>
-Os estudantes devem conviver com respeito às diferenças, evitando bullying,
-preconceito e qualquer forma de discriminação.
-</p>
+<p>Respeito às diferenças e combate ao bullying.</p>
+</div>
 </div>
 
 <div class="card">
-<h3>Funcionários da Escola</h3>
-<p>
-Todos os profissionais, como merendeiras, secretários e inspetores, devem ser
-respeitados e valorizados pelos alunos e professores.
-</p>
+<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
+<div class="card-content">
+<h3>Equipe escolar</h3>
+<p>Todos os profissionais devem ser valorizados.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1604881991720-f91add269bed">
+<div class="card-content">
+<h3>Ambiente inclusivo</h3>
+<p>Escola com igualdade e oportunidades para todos.</p>
+</div>
 </div>
 
 </div>
 </section>
 
 <section class="section" id="direitos">
-<h2>Direitos que devem ser garantidos</h2>
-
-<div class="accordion">
+<h2>Direitos garantidos</h2>
 
 <div class="accordion-item">
 <div class="accordion-header">Direito ao respeito</div>
-<div class="accordion-content">
-Todos devem ser tratados com educação, sem discriminação ou violência.
-</div>
-</div>
-
-<div class="accordion-item">
-<div class="accordion-header">Direito à educação de qualidade</div>
-<div class="accordion-content">
-Os alunos têm direito a ensino de qualidade com professores preparados.
-</div>
+<div class="accordion-content">Todos devem ser tratados com educação e dignidade.</div>
 </div>
 
 <div class="accordion-item">
 <div class="accordion-header">Direito à igualdade</div>
-<div class="accordion-content">
-Todos devem ter as mesmas oportunidades, independente de cor, religião ou condição social.
-</div>
+<div class="accordion-content">Todos têm as mesmas oportunidades dentro da escola.</div>
 </div>
 
 <div class="accordion-item">
-<div class="accordion-header">Direito à segurança</div>
-<div class="accordion-content">
-A escola deve ser um ambiente seguro e livre de violência.
-</div>
-</div>
-
+<div class="accordion-header">Direito à educação</div>
+<div class="accordion-content">Ensino de qualidade para todos os alunos.</div>
 </div>
 
 </section>
 
-<section class="section" id="acoes">
-<h2>Ações para promover Direitos Humanos</h2>
+<section class="section" id="galeria">
+<h2>Imagens sobre Direitos Humanos na Escola</h2>
 
-<div class="cards">
-
-<div class="card">
-<h3>Projetos escolares</h3>
-<p>Realizar palestras, debates e atividades sobre respeito e cidadania.</p>
+<div class="galeria">
+<img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b">
+<img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644">
+<img src="https://images.unsplash.com/photo-1577896851231-70ef18881754">
+<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7">
 </div>
 
-<div class="card">
-<h3>Combate ao bullying</h3>
-<p>Criar campanhas educativas e incentivar o diálogo entre os alunos.</p>
-</div>
-
-<div class="card">
-<h3>Participação dos alunos</h3>
-<p>Ouvir opiniões e permitir que os estudantes participem das decisões.</p>
-</div>
-
-<div class="card">
-<h3>Ambiente inclusivo</h3>
-<p>Garantir acessibilidade e respeito às diferenças.</p>
-</div>
-
-</div>
-
-<button onclick="mostrarMensagem()">Clique para ver uma mensagem</button>
-
+<button onclick="mostrarMensagem()">Mensagem importante</button>
 <p id="mensagem"></p>
 
 </section>
 
 <footer>
-<p>Trabalho Escolar - Direitos Humanos na Escola</p>
-<p>Respeito • Igualdade • Educação • Cidadania</p>
+<p>Direitos Humanos na Escola</p>
+<p>Respeito • Igualdade • Inclusão</p>
 </footer>
 
 <script>
-
 const headers = document.querySelectorAll(".accordion-header");
-
 headers.forEach(header => {
 header.addEventListener("click", () => {
 const content = header.nextElementSibling;
-
-content.style.display = 
-content.style.display === "block" ? "none" : "block";
+content.style.display = content.style.display === "block" ? "none" : "block";
 });
 });
 
 function mostrarMensagem(){
 document.getElementById("mensagem").innerHTML =
-"A escola é um espaço onde todos têm direitos e deveres. Respeitar o próximo é fundamental para uma convivência saudável.";
+"Uma escola que respeita os direitos humanos constrói um ambiente melhor para aprender, ensinar e conviver.";
 }
-
 </script>
 
 </body>
