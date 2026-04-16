@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direitos Humanos na Escola</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+overflow-x:hidden;
+}
+
+/* FUNDO ESCOLAR */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,#60a5fa,#38bdf8,#22c55e);
+background-size:400% 400%;
+animation:fundo 15s ease infinite;
+z-index:-1;
+}
+
+@keyframes fundo{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* HEADER */
+header{
+background:rgba(30,58,138,0.9);
+color:white;
+padding:15px;
+display:flex;
+align-items:center;
+gap:15px;
+backdrop-filter:blur(10px);
+}
+
+.logo{
+width:55px;
+border-radius:50%;
+animation:logo 3s infinite alternate;
+}
+
+@keyframes logo{
+from{transform:rotate(-5deg)}
+to{transform:rotate(5deg)}
+}
+
+/* MENU */
+nav{
+background:rgba(14,165,233,0.95);
+padding:10px;
+text-align:center;
+transform:translateY(-100%);
+opacity:0;
+animation:menuAbrir 0.8s ease forwards;
+}
+
+@keyframes menuAbrir{
+to{
+transform:translateY(0);
+opacity:1;
+}
+}
+
+nav button{
+margin:5px;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+nav button:hover{
+transform:translateY(-3px) scale(1.05);
+box-shadow:0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* SEÇÕES */
+.section{
+display:none;
+padding:30px;
+max-width:900px;
+margin:auto;
+animation:fade 0.5s ease;
+}
+
+.active{
+display:block;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* CARD */
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+img{
+width:100%;
+border-radius:10px;
+margin:15px 0;
+}
+
+input, textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:#1e3a8a;
+color:white;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.comentario{
+background:#e2e8f0;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+animation:coment 0.4s ease;
+}
+
+@keyframes coment{
+from{
+opacity:0;
+transform:translateX(-20px);
+}
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+
+.nome{
+font-weight:bold;
+color:#1e3a8a;
+}
+
+.excluir{
+background:#ef4444;
+}
+
+.contador{
+margin-top:10px;
+font-weight:bold;
+color:#1e3a8a;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+<div>
+<h2>Direitos Humanos na Escola</h2>
+<small>Relação entre professores, alunos e profissionais</small>
+</div>
+</header>
+
+<nav>
+<button onclick="mostrar('inicio')">Início</button>
+<button onclick="mostrar('tema')">Tema</button>
+<button onclick="mostrar('professores')">Professores</button>
+<button onclick="mostrar('alunos')">Alunos</button>
+<button onclick="mostrar('comentarios')">Comentários</button>
+<button onclick="voltar()">Voltar</button>
+</nav>
+
+<!-- INICIO -->
+<div id="inicio" class="section active">
+<div class="card">
+<h2>Direitos Humanos na Escola</h2>
+
+<p>
+Os direitos humanos na escola são fundamentais para garantir um ambiente de
+respeito, igualdade e convivência saudável entre professores, alunos e outros
+profissionais. A escola é um espaço onde se aprende não apenas conteúdos,
+mas também valores importantes para a vida em sociedade.
+</p>
+
+<p>
+Quando existe respeito entre todos, o ambiente escolar se torna mais acolhedor
+e seguro. Professores conseguem ensinar melhor, alunos aprendem com mais
+facilidade e os demais profissionais contribuem para a organização e o
+bem-estar coletivo.
+</p>
+
+<p>
+A prática dos direitos humanos envolve ouvir opiniões, respeitar diferenças,
+combater o bullying e incentivar o diálogo. Essas atitudes ajudam a formar
+cidadãos conscientes e preparados para viver em sociedade.
+</p>
+
+</div>
+</div>
+
+<!-- TEMA -->
+<div id="tema" class="section">
+<div class="card">
+<h2>Importância dos Direitos Humanos</h2>
+
+<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
+
+<p>
+Os direitos humanos garantem que todos dentro da escola sejam tratados com
+respeito. Professores, alunos e funcionários devem colaborar para criar
+um ambiente harmonioso e acolhedor.
+</p>
+
+<p>
+Promover os direitos humanos significa valorizar a diversidade, respeitar
+opiniões diferentes e incentivar a convivência pacífica entre todos.
+</p>
+
+</div>
+</div>
+
+<!-- PROFESSORES -->
+<div id="professores" class="section">
+<div class="card">
+<h2>Papel dos Professores</h2>
+
+<p>
+Os professores têm papel essencial na promoção dos direitos humanos.
+Eles orientam, ensinam valores e incentivam o respeito entre os alunos.
+</p>
+
+<ul>
+<li>Promover respeito</li>
+<li>Combater bullying</li>
+<li>Incentivar diálogo</li>
+<li>Respeitar diferenças</li>
+<li>Garantir igualdade</li>
+<li>Criar ambiente acolhedor</li>
+</ul>
+
+</div>
+</div>
+
+<!-- ALUNOS -->
+<div id="alunos" class="section">
+<div class="card">
+<h2>Papel dos Alunos</h2>
+
+<p>
+Os alunos devem respeitar colegas, professores e funcionários,
+contribuindo para um ambiente escolar saudável.
+</p>
+
+<ul>
+<li>Respeitar professores</li>
+<li>Respeitar colegas</li>
+<li>Evitar bullying</li>
+<li>Ajudar colegas</li>
+<li>Valorizar diferenças</li>
+<li>Seguir regras</li>
+</ul>
+
+</div>
+</div>
+
+<!-- COMENTARIOS -->
+<div id="comentarios" class="section">
+<div class="card">
+<h2>Comentários</h2>
+
+<input id="nome" placeholder="Seu nome">
+<textarea id="texto" placeholder="Seu comentário"></textarea>
+
+<button onclick="comentar()">Enviar</button>
+
+<div class="contador">
+Total: <span id="contador">0</span>
+</div>
+
+<div id="lista"></div>
+
+</div>
+</div>
+
+<script>
+function mostrar(secao){
+document.querySelectorAll(".section").forEach(s=>{
+s.classList.remove("active")
+})
+document.getElementById(secao).classList.add("active")
+}
+
+function voltar(){
+history.back();
+}
+
+let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+
+function salvar(){
+localStorage.setItem("comentarios", JSON.stringify(comentarios));
+}
+
+function render(){
+let lista = document.getElementById("lista");
+lista.innerHTML="";
+
+comentarios.forEach((c,i)=>{
+let div = document.createElement("div");
+div.className="comentario";
+
+div.innerHTML = `
+<div class="nome">${c.nome}</div>
+<div>${c.texto}</div>
+<button class="excluir" onclick="excluir(${i})">Excluir</button>
+`;
+
+lista.appendChild(div);
+});
+
+document.getElementById("contador").innerText = comentarios.length;
+}
+
+function comentar(){
+let nome = document.getElementById("nome").value;
+let texto = document.getElementById("texto").value;
+
+if(nome=="" || texto==""){
+alert("Preencha tudo");
+return;
+}
+
+comentarios.push({nome,texto});
+salvar();
+render();
+
+document.getElementById("nome").value="";
+document.getElementById("texto").value="";
+}
+
+function excluir(i){
+comentarios.splice(i,1);
+salvar();
+render();
+}
+
+render();
+</script>
+
+</body>
+</html>
