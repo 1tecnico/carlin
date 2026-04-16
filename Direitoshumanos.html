@@ -1,85 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Direitos Humanos na Escola</title>
 
 <style>
 body{
-margin:0;
 font-family:Arial;
-background:linear-gradient(120deg,#60a5fa,#38bdf8,#22c55e);
-background-size:400% 400%;
-animation:fundo 10s infinite;
-}
-
-@keyframes fundo{
-0%{background-position:0%}
-50%{background-position:100%}
-100%{background-position:0%}
+background:#60a5fa;
+margin:0;
 }
 
 header{
 background:#1e3a8a;
 color:white;
 padding:15px;
-display:flex;
-gap:10px;
-}
-
-.logo{
-width:50px;
-height:50px;
-background:white;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
 }
 
 nav{
 background:#0ea5e9;
 padding:10px;
-text-align:center;
 }
 
-nav button{
-margin:5px;
+button{
 padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+margin:5px;
 }
 
 .section{
 display:none;
 padding:20px;
+background:white;
+margin:20px;
 }
 
 .active{
 display:block;
 }
-
-.card{
-background:white;
-padding:20px;
-border-radius:10px;
-}
-
-.comentario{
-background:#eee;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-}
 </style>
-</head>
 
+</head>
 <body>
 
 <header>
-<div class="logo">🏫</div>
 <h2>Direitos Humanos na Escola</h2>
 </header>
 
@@ -88,55 +51,31 @@ border-radius:8px;
 <button onclick="mostrar('prof')">Professores</button>
 <button onclick="mostrar('alunos')">Alunos</button>
 <button onclick="mostrar('coment')">Comentários</button>
-<button onclick="history.back()">Voltar</button>
 </nav>
 
 <div id="inicio" class="section active">
-<div class="card">
-<h2>Direitos Humanos</h2>
-<p>
-Os direitos humanos na escola garantem respeito entre professores,
-alunos e profissionais. A convivência baseada no diálogo melhora
-o ambiente escolar.
-</p>
-</div>
+<h3>Início</h3>
+<p>Direitos humanos na escola garantem respeito entre alunos e professores.</p>
 </div>
 
 <div id="prof" class="section">
-<div class="card">
-<h2>Professores</h2>
-<ul>
-<li>Promover respeito</li>
-<li>Combater bullying</li>
-<li>Incentivar diálogo</li>
-</ul>
-</div>
+<h3>Professores</h3>
+<p>Os professores devem incentivar respeito e diálogo.</p>
 </div>
 
 <div id="alunos" class="section">
-<div class="card">
-<h2>Alunos</h2>
-<ul>
-<li>Respeitar colegas</li>
-<li>Respeitar professores</li>
-<li>Evitar bullying</li>
-</ul>
-</div>
+<h3>Alunos</h3>
+<p>Os alunos devem respeitar colegas e professores.</p>
 </div>
 
 <div id="coment" class="section">
-<div class="card">
-
-<input id="nome" placeholder="Nome">
-<textarea id="texto"></textarea>
-
+<h3>Comentários</h3>
+<input id="nome" placeholder="Nome"><br><br>
+<textarea id="texto"></textarea><br>
 <button onclick="comentar()">Enviar</button>
 
 <p>Total: <span id="contador">0</span></p>
-
 <div id="lista"></div>
-
-</div>
 </div>
 
 <script>
@@ -145,49 +84,28 @@ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
 }
 
-let comentarios = JSON.parse(localStorage.getItem("comentarios"))||[];
+let comentarios=[];
 
-function salvar(){
-localStorage.setItem("comentarios",JSON.stringify(comentarios))
+function comentar(){
+let nome=document.getElementById("nome").value
+let texto=document.getElementById("texto").value
+
+if(!nome || !texto) return
+
+comentarios.push({nome,texto})
+render()
 }
 
 function render(){
 let lista=document.getElementById("lista")
 lista.innerHTML=""
 
-comentarios.forEach((c,i)=>{
-lista.innerHTML+=`
-<div class="comentario">
-<b>${c.nome}</b>
-<p>${c.texto}</p>
-<button onclick="excluir(${i})">Excluir</button>
-</div>`
+comentarios.forEach(c=>{
+lista.innerHTML+=`<p><b>${c.nome}</b>: ${c.texto}</p>`
 })
 
 contador.innerText=comentarios.length
 }
-
-function comentar(){
-let nome=document.getElementById("nome").value
-let texto=document.getElementById("texto").value
-
-if(!nome||!texto)return
-
-comentarios.push({nome,texto})
-salvar()
-render()
-
-document.getElementById("nome").value=""
-document.getElementById("texto").value=""
-}
-
-function excluir(i){
-comentarios.splice(i,1)
-salvar()
-render()
-}
-
-render()
 </script>
 
 </body>
