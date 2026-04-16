@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partes da Placa Mãe</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:#f1f5f9;
+color:#0f172a;
+}
+
+header{
+background:linear-gradient(135deg,#60a5fa,#a78bfa);
+padding:40px 20px;
+text-align:center;
+color:white;
+}
+
+header h1{font-size:32px;margin-bottom:10px;}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+/* IMAGEM GERAL */
+.placa-geral{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-bottom:40px;
+text-align:center;
+}
+
+.placa-geral img{
+width:100%;
+max-width:700px;
+border-radius:10px;
+}
+
+.legenda{
+margin-top:15px;
+line-height:1.6;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+position:relative;
+}
+
+/* ANIMAÇÃO HOVER */
+.card:hover{
+transform:translateY(-10px) scale(1.02);
+box-shadow:0 20px 35px rgba(0,0,0,0.15);
+}
+
+.card img{
+width:100%;
+height:170px;
+object-fit:cover;
+}
+
+.card-content{padding:18px;}
+.card h2{font-size:18px;margin-bottom:8px;color:#2563eb;}
+.card p{font-size:14px;line-height:1.5;}
+
+button{
+margin-top:10px;
+background:#2563eb;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{background:#1d4ed8;}
+
+.extra{
+display:none;
+margin-top:10px;
+font-size:13px;
+background:#eff6ff;
+padding:10px;
+border-radius:8px;
+}
+
+footer{
+text-align:center;
+padding:30px;
+margin-top:40px;
+background:#e2e8f0;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>10 Partes Mais Importantes da Placa‑Mãe</h1>
+<p>Clique nos botões para ver mais explicações</p>
+</header>
+
+<div class="container">
+
+<div class="placa-geral">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
+<div class="legenda">
+<b>Placa-mãe completa:</b> Nela encontramos socket do processador, memória RAM, chipset, slots PCI Express, conectores SATA, bateria CMOS e portas traseiras. Todos esses componentes trabalham juntos para permitir o funcionamento do computador.
+</div>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
+<div class="card-content">
+<h2>1. Socket</h2>
+<p>Onde o processador é encaixado.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">O socket conecta a CPU à placa‑mãe permitindo comunicação com memória, armazenamento e demais componentes.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1563201515-adbe35c669c5">
+<div class="card-content">
+<h2>2. RAM</h2>
+<p>Memória temporária.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Armazena dados temporários enquanto programas estão em uso, tornando o computador mais rápido.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
+<div class="card-content">
+<h2>3. Chipset</h2>
+<p>Controle da placa-mãe.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Coordena comunicação entre processador, memória e dispositivos conectados.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1555617117-08fda4e3c9c0">
+<div class="card-content">
+<h2>4. BIOS / UEFI</h2>
+<p>Primeiro software.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Inicializa o hardware e permite configurar o sistema antes do carregamento do sistema operacional.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587202372599-94f3c4b07f88">
+<div class="card-content">
+<h2>5. Conector ATX</h2>
+<p>Energia da placa.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Conecta a fonte de alimentação e distribui energia para todos os componentes.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea">
+<div class="card-content">
+<h2>6. Conector CPU</h2>
+<p>Energia do processador.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Fornece energia exclusiva para garantir funcionamento correto da CPU.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587202372599-94f3c4b07f88">
+<div class="card-content">
+<h2>7. PCI Express</h2>
+<p>Placas de expansão.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Utilizado para placa de vídeo, placa de som e outros dispositivos.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1591488320449-011701bb6704">
+<div class="card-content">
+<h2>8. SATA</h2>
+<p>HD e SSD.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Permite conectar dispositivos de armazenamento à placa‑mãe.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1603732551658-5fabbafa84eb">
+<div class="card-content">
+<h2>9. Bateria CMOS</h2>
+<p>Mantém configurações.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Mantém hora e configurações da BIOS mesmo desligado.</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7">
+<div class="card-content">
+<h2>10. Portas traseiras</h2>
+<p>USB, vídeo e rede.</p>
+<button onclick="toggle(this)">Explicação</button>
+<div class="extra">Permite conectar teclado, mouse, monitor, rede e outros dispositivos externos.</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<footer>
+<p>Trabalho de Informática - Placa Mãe</p>
+</footer>
+
+<script>
+function toggle(btn){
+const extra = btn.nextElementSibling;
+extra.style.display = extra.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
